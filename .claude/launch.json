@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "resume-site",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "http-server", "-a", "127.0.0.1", "-c-1", "."],
+      "port": 4173,
+      "autoPort": true
+    }
+  ]
+}

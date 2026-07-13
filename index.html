@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wladyslaw Pshenychnyy — Above the Gray Fog</title>
+  <meta name="description" content="Resume of Wladyslaw Pshenychnyy — a gathering of the Tarot Club above the gray fog. Choose a crimson star to unveil a chapter.">
+  <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M16 2 L19 13 L30 16 L19 19 L16 30 L13 19 L2 16 L13 13 Z" fill="%23c41e3a"/></svg>'>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Shared SVG defs (fog-body gradient for the apparitions) -->
+  <svg class="svg-defs" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="fogbody" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0"   stop-color="#4b5468" stop-opacity="0.95"/>
+        <stop offset="0.5" stop-color="#343d50" stop-opacity="0.85"/>
+        <stop offset="1"   stop-color="#232a3a" stop-opacity="0.25"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- ═══════════════════════ THE GATHERING (main menu) ═══════════════════════ -->
+  <main id="scene" aria-label="The Tarot Club gathering — choose a seat to view a resume section">
+
+    <div class="sky" aria-hidden="true"></div>
+
+    <!-- The radiant light above the gray fog -->
+    <div class="halo" aria-hidden="true"></div>
+
+    <!-- Crimson stars scattered in the sky -->
+    <div class="sky-stars" aria-hidden="true">
+      <span style="--sx:63%; --sy:9%;  --ss:1;   --sd:0s"></span>
+      <span style="--sx:71%; --sy:17%; --ss:.7;  --sd:1.4s"></span>
+      <span style="--sx:57%; --sy:23%; --ss:.85; --sd:2.6s"></span>
+      <span style="--sx:33%; --sy:12%; --ss:.6;  --sd:3.4s"></span>
+      <span style="--sx:25%; --sy:25%; --ss:.75; --sd:.8s"></span>
+      <span style="--sx:82%; --sy:29%; --ss:.55; --sd:4.2s"></span>
+    </div>
+
+    <canvas id="fog-back" aria-hidden="true"></canvas>
+
+    <!-- The pale long table, descending from the light -->
+    <div class="table" aria-hidden="true">
+      <div class="table-surface"></div>
+      <div class="table-runner"></div>
+    </div>
+
+    <!-- The Fool's dais with its cross-braced front -->
+    <div class="dais" aria-hidden="true"></div>
+
+    <!-- Broken stone stumps at the near corners -->
+    <div class="stump stump--l" aria-hidden="true"></div>
+    <div class="stump stump--r" aria-hidden="true"></div>
+
+    <div class="mist" aria-hidden="true"></div>
+
+    <!-- Crimson embers burning in the clouds -->
+    <div class="embers" aria-hidden="true"><span></span><span></span></div>
+
+    <!-- Name / masthead -->
+    <header class="masthead">
+      <p class="overline">Above the Gray Fog&nbsp;&nbsp;·&nbsp;&nbsp;The Tarot Club</p>
+      <!-- ═══ EDIT: your name and title ═══ -->
+      <h1>Wladyslaw Pshenychnyy</h1>
+      <p class="tagline">Software Developer — the gathering has convened</p>
+    </header>
+
+    <!-- ═══ The seats: fog-shrouded figures with crimson stars ═══ -->
+    <div class="seats">
+
+      <!-- Head of the table -->
+      <button class="seat seat--fool" data-chapter="about"
+              style="--s:.52; --x:50%; --y:61vh; --blur:5px; --pulse:0s"
+              aria-label="The Fool — About Me" aria-haspopup="dialog">
+        <span class="label" aria-hidden="true">
+          <span class="honor">The Fool</span>
+          <span class="sect">About Me</span>
+        </span>
+        <span class="apparition">
+          <span class="chair"></span>
+          <svg class="figure" viewBox="0 0 100 130" preserveAspectRatio="xMidYMax meet">
+            <path fill="url(#fogbody)" d="M50 6 C60 6 67 15 67 26 C67 34 63 40 58 44 C63 47 68 52 72 60 C78 72 82 86 84 102 C85 113 85 122 84 130 L16 130 C15 122 15 113 16 102 C18 86 22 72 28 60 C32 52 37 47 42 44 C37 40 33 34 33 26 C33 15 40 6 50 6 Z"/>
+          </svg>
+          <span class="star"><span class="glow"></span><span class="ray ray--v"></span><span class="ray ray--h"></span><span class="core"></span></span>
+        </span>
+      </button>
+
+      <!-- Left side of the table -->
+      <button class="seat seat--near" data-chapter="internships"
+              style="--s:1.05; --x:21%; --y:9vh; --blur:4.5px; --pulse:.7s"
+              aria-label="Justice — Internships" aria-haspopup="dialog">
+        <span class="label" aria-hidden="true">
+          <span class="honor">Justice</span>
+          <span class="sect">Internships</span>
+        </span>
+        <span class="apparition">
+          <span class="chair"></span>
+          <svg class="figure" viewBox="0 0 100 130" preserveAspectRatio="xMidYMax meet">
+            <path fill="url(#fogbody)" d="M50 6 C60 6 67 15 67 26 C67 34 63 40 58 44 C63 47 68 52 72 60 C78 72 82 86 84 102 C85 113 85 122 84 130 L16 130 C15 122 15 113 16 102 C18 86 22 72 28 60 C32 52 37 47 42 44 C37 40 33 34 33 26 C33 15 40 6 50 6 Z"/>
+          </svg>
+          <span class="star"><span class="glow"></span><span class="ray ray--v"></span><span class="ray ray--h"></span><span class="core"></span></span>
+        </span>
+      </button>
+
+      <button class="seat" data-chapter="skills"
+              style="--s:.78; --x:31.5%; --y:30vh; --blur:5px; --pulse:1.6s"
+              aria-label="The Hermit — Skills" aria-haspopup="dialog">
+        <span class="label" aria-hidden="true">
+          <span class="honor">The Hermit</span>
+          <span class="sect">Skills</span>
+        </span>
+        <span class="apparition">
+          <span class="chair"></span>
+          <svg class="figure" viewBox="0 0 100 130" preserveAspectRatio="xMidYMax meet">
+            <path fill="url(#fogbody)" d="M50 6 C60 6 67 15 67 26 C67 34 63 40 58 44 C63 47 68 52 72 60 C78 72 82 86 84 102 C85 113 85 122 84 130 L16 130 C15 122 15 113 16 102 C18 86 22 72 28 60 C32 52 37 47 42 44 C37 40 33 34 33 26 C33 15 40 6 50 6 Z"/>
+          </svg>
+          <span class="star"><span class="glow"></span><span class="ray ray--v"></span><span class="ray ray--h"></span><span class="core"></span></span>
+        </span>
+      </button>
+
+      <button class="seat" data-chapter="contact"
+              style="--s:.6; --x:39.5%; --y:45vh; --blur:5.5px; --pulse:2.3s"
+              aria-label="The Star — Contact" aria-haspopup="dialog">
+        <span class="label" aria-hidden="true">
+          <span class="honor">The Star</span>
+          <span class="sect">Contact</span>
+        </span>
+        <span class="apparition">
+          <span class="chair"></span>
+          <svg class="figure" viewBox="0 0 100 130" preserveAspectRatio="xMidYMax meet">
+            <path fill="url(#fogbody)" d="M50 6 C60 6 67 15 67 26 C67 34 63 40 58 44 C63 47 68 52 72 60 C78 72 82 86 84 102 C85 113 85 122 84 130 L16 130 C15 122 15 113 16 102 C18 86 22 72 28 60 C32 52 37 47 42 44 C37 40 33 34 33 26 C33 15 40 6 50 6 Z"/>
+          </svg>
+          <span class="star"><span class="glow"></span><span class="ray ray--v"></span><span class="ray ray--h"></span><span class="core"></span></span>
+        </span>
+      </button>
+
+      <!-- Right side of the table -->
+      <button class="seat seat--near" data-chapter="projects"
+              style="--s:1.05; --x:79%; --y:9vh; --blur:4.5px; --pulse:1.1s"
+              aria-label="The Magician — Projects" aria-haspopup="dialog">
+        <span class="label" aria-hidden="true">
+          <span class="honor">The Magician</span>
+          <span class="sect">Projects</span>
+        </span>
+        <span class="apparition">
+          <span class="chair"></span>
+          <svg class="figure" viewBox="0 0 100 130" preserveAspectRatio="xMidYMax meet">
+            <path fill="url(#fogbody)" d="M50 6 C60 6 67 15 67 26 C67 34 63 40 58 44 C63 47 68 52 72 60 C78 72 82 86 84 102 C85 113 85 122 84 130 L16 130 C15 122 15 113 16 102 C18 86 22 72 28 60 C32 52 37 47 42 44 C37 40 33 34 33 26 C33 15 40 6 50 6 Z"/>
+          </svg>
+          <span class="star"><span class="glow"></span><span class="ray ray--v"></span><span class="ray ray--h"></span><span class="core"></span></span>
+        </span>
+      </button>
+
+      <button class="seat" data-chapter="education"
+              style="--s:.78; --x:68.5%; --y:30vh; --blur:5px; --pulse:.3s"
+              aria-label="The Sun — Education" aria-haspopup="dialog">
+        <span class="label" aria-hidden="true">
+          <span class="honor">The Sun</span>
+          <span class="sect">Education</span>
+        </span>
+        <span class="apparition">
+          <span class="chair"></span>
+          <svg class="figure" viewBox="0 0 100 130" preserveAspectRatio="xMidYMax meet">
+            <path fill="url(#fogbody)" d="M50 6 C60 6 67 15 67 26 C67 34 63 40 58 44 C63 47 68 52 72 60 C78 72 82 86 84 102 C85 113 85 122 84 130 L16 130 C15 122 15 113 16 102 C18 86 22 72 28 60 C32 52 37 47 42 44 C37 40 33 34 33 26 C33 15 40 6 50 6 Z"/>
+          </svg>
+          <span class="star"><span class="glow"></span><span class="ray ray--v"></span><span class="ray ray--h"></span><span class="core"></span></span>
+        </span>
+      </button>
+
+      <!-- An empty seat — some members have yet to arrive -->
+      <span class="seat-empty" aria-hidden="true" style="--s:.6; --x:60.5%; --y:45vh;">
+        <span class="chair"></span>
+      </span>
+
+    </div>
+
+    <canvas id="fog-front" aria-hidden="true"></canvas>
+    <div class="vignette" aria-hidden="true"></div>
+
+    <p class="hint" id="hint">✦&nbsp;&nbsp;Touch a crimson star to unveil that chapter&nbsp;&nbsp;✦</p>
+  </main>
+
+  <!-- ═══════════════════════ THE CHAPTERS (overlay) ═══════════════════════ -->
+  <div id="overlay" role="dialog" aria-modal="true" hidden>
+    <div class="overlay-veil" aria-hidden="true"></div>
+
+    <button class="overlay-close" aria-label="Return to the gathering (Esc)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+        <path d="M5 5 L19 19 M19 5 L5 19"/>
+      </svg>
+    </button>
+
+    <div class="overlay-scroll" tabindex="-1">
+
+      <!-- ─────────────── THE FOOL · ABOUT ME ─────────────── -->
+      <article class="chapter" data-chapter="about" hidden>
+        <header class="chapter-head">
+          <svg class="sigil" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+            <circle cx="24" cy="24" r="17"/>
+            <path d="M24 10 L27 21 L38 24 L27 27 L24 38 L21 27 L10 24 L21 21 Z"/>
+          </svg>
+          <p class="honorific">The Fool</p>
+          <h2 class="chapter-title" tabindex="-1">About Me</h2>
+          <div class="rule"><span>✦</span></div>
+        </header>
+
+        <blockquote class="chant">
+          “The Fool that doesn’t belong to this era; the mysterious ruler above
+          the gray fog; the King of Yellow and Black who wields good luck.”
+        </blockquote>
+
+        <!-- ═══ EDIT: replace with your own introduction ═══ -->
+        <p class="lead">
+          I am <strong>Wladyslaw Pshenychnyy</strong> — a software developer seated
+          above the gray fog. This is the placeholder for your introduction:
+          who you are, what you build, and what you are searching for.
+        </p>
+        <p>
+          Write two or three sentences here about your background, your favourite
+          technologies, and the kind of team or mission you want to join. Keep it
+          human — the fog conceals enough already.
+        </p>
+
+        <ul class="facts">
+          <li><span class="facts-key">Path</span> Software Development</li>
+          <li><span class="facts-key">Sequence</span> Junior → ascending</li>
+          <li><span class="facts-key">Location</span> Your City, Country</li>
+          <li><span class="facts-key">Interests</span> Games · Web · Systems</li>
+        </ul>
+      </article>
+
+      <!-- ─────────────── THE MAGICIAN · PROJECTS ─────────────── -->
+      <article class="chapter" data-chapter="projects" hidden>
+        <header class="chapter-head">
+          <svg class="sigil" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+            <circle cx="24" cy="24" r="17"/>
+            <path d="M24 12 V36 M14 17 L34 31 M34 17 L14 31"/>
+          </svg>
+          <p class="honorific">The Magician</p>
+          <h2 class="chapter-title" tabindex="-1">Projects</h2>
+          <div class="rule"><span>✦</span></div>
+        </header>
+
+        <p class="lead">Conjurations, tricks, and things willed into being.</p>
+
+        <!-- ═══ EDIT: one .card per project ═══ -->
+        <div class="cards">
+          <div class="card">
+            <h3>Project One</h3>
+            <p>A one-or-two sentence description of the project — the problem it
+               solves and what makes it interesting.</p>
+            <p class="tags"><span>Unity</span><span>C#</span><span>Shader</span></p>
+            <p class="card-links"><a href="#" rel="noopener">Repository ↗</a><a href="#" rel="noopener">Live demo ↗</a></p>
+          </div>
+          <div class="card">
+            <h3>Project Two</h3>
+            <p>Description placeholder. What you built, why, and the result —
+               numbers and outcomes read better than adjectives.</p>
+            <p class="tags"><span>JavaScript</span><span>Canvas</span><span>Web Audio</span></p>
+            <p class="card-links"><a href="#" rel="noopener">Repository ↗</a></p>
+          </div>
+          <div class="card">
+            <h3>Project Three</h3>
+            <p>Description placeholder. Mention your specific role if it was a
+               team effort.</p>
+            <p class="tags"><span>Python</span><span>FastAPI</span><span>PostgreSQL</span></p>
+            <p class="card-links"><a href="#" rel="noopener">Repository ↗</a></p>
+          </div>
+        </div>
+      </article>
+
+      <!-- ─────────────── JUSTICE · INTERNSHIPS ─────────────── -->
+      <article class="chapter" data-chapter="internships" hidden>
+        <header class="chapter-head">
+          <svg class="sigil" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+            <path d="M24 10 V34 M14 14 H34 M24 34 H24" />
+            <path d="M14 14 L10 24 A6 4 0 0 0 18 24 Z M34 14 L30 24 A6 4 0 0 0 38 24 Z"/>
+            <path d="M18 38 H30"/>
+          </svg>
+          <p class="honorific">Justice</p>
+          <h2 class="chapter-title" tabindex="-1">Internships</h2>
+          <div class="rule"><span>✦</span></div>
+        </header>
+
+        <p class="lead">Dues paid in full, weighed and found worthy.</p>
+
+        <!-- ═══ EDIT: one .entry per internship / job ═══ -->
+        <div class="timeline">
+          <div class="entry">
+            <p class="entry-when">Jun 2025 — Sep 2025</p>
+            <h3>Software Engineering Intern · Company Name</h3>
+            <ul>
+              <li>What you built or shipped — start with a verb, end with an outcome.</li>
+              <li>A second bullet: a technology you mastered or a metric you moved.</li>
+            </ul>
+          </div>
+          <div class="entry">
+            <p class="entry-when">Jun 2024 — Aug 2024</p>
+            <h3>Intern · Another Company</h3>
+            <ul>
+              <li>Placeholder bullet — keep each to a single line of impact.</li>
+              <li>Placeholder bullet — tools: X, Y, Z.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- ─────────────── THE HERMIT · SKILLS ─────────────── -->
+      <article class="chapter" data-chapter="skills" hidden>
+        <header class="chapter-head">
+          <svg class="sigil" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+            <path d="M24 8 A16 16 0 1 0 24 40"/>
+            <circle cx="24" cy="24" r="6"/>
+            <path d="M24 18 V30 M18 24 H30"/>
+          </svg>
+          <p class="honorific">The Hermit</p>
+          <h2 class="chapter-title" tabindex="-1">Skills</h2>
+          <div class="rule"><span>✦</span></div>
+        </header>
+
+        <p class="lead">Knowledge hoarded in the lamplight, catalogued below.</p>
+
+        <!-- ═══ EDIT: your skill groups ═══ -->
+        <div class="skill-groups">
+          <div class="skill-group">
+            <h3>Languages</h3>
+            <p class="tags"><span>C#</span><span>Python</span><span>JavaScript</span><span>SQL</span></p>
+          </div>
+          <div class="skill-group">
+            <h3>Frameworks &amp; Engines</h3>
+            <p class="tags"><span>Unity</span><span>.NET</span><span>Node.js</span><span>React</span></p>
+          </div>
+          <div class="skill-group">
+            <h3>Tools</h3>
+            <p class="tags"><span>Git</span><span>Docker</span><span>Blender</span><span>Figma</span></p>
+          </div>
+          <div class="skill-group">
+            <h3>Languages Spoken</h3>
+            <p class="tags"><span>English</span><span>Ukrainian</span><span>Polish</span></p>
+          </div>
+        </div>
+      </article>
+
+      <!-- ─────────────── THE SUN · EDUCATION ─────────────── -->
+      <article class="chapter" data-chapter="education" hidden>
+        <header class="chapter-head">
+          <svg class="sigil" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+            <circle cx="24" cy="24" r="9"/>
+            <path d="M24 4 V10 M24 38 V44 M4 24 H10 M38 24 H44 M9.9 9.9 L14.1 14.1 M33.9 33.9 L38.1 38.1 M38.1 9.9 L33.9 14.1 M14.1 33.9 L9.9 38.1"/>
+          </svg>
+          <p class="honorific">The Sun</p>
+          <h2 class="chapter-title" tabindex="-1">Education</h2>
+          <div class="rule"><span>✦</span></div>
+        </header>
+
+        <p class="lead">Light gathered before the fog rolled in.</p>
+
+        <!-- ═══ EDIT: your education entries ═══ -->
+        <div class="timeline">
+          <div class="entry">
+            <p class="entry-when">2023 — 2027 (expected)</p>
+            <h3>B.Sc. Computer Science · University Name</h3>
+            <ul>
+              <li>Relevant coursework: Algorithms, Databases, Computer Graphics.</li>
+              <li>GPA / honours / scholarship — if it flatters you, list it.</li>
+            </ul>
+          </div>
+          <div class="entry">
+            <p class="entry-when">Certificates</p>
+            <h3>Courses &amp; Certifications</h3>
+            <ul>
+              <li>Placeholder certificate — issuer, year.</li>
+              <li>Placeholder course — platform, year.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- ─────────────── THE STAR · CONTACT ─────────────── -->
+      <article class="chapter" data-chapter="contact" hidden>
+        <header class="chapter-head">
+          <svg class="sigil" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+            <path d="M24 6 L27 17 L38 14 L31 23 L42 27 L30 28 L33 40 L24 32 L15 40 L18 28 L6 27 L17 23 L10 14 L21 17 Z"/>
+          </svg>
+          <p class="honorific">The Star</p>
+          <h2 class="chapter-title" tabindex="-1">Contact</h2>
+          <div class="rule"><span>✦</span></div>
+        </header>
+
+        <p class="lead">
+          Recite the honorific name, and the star shall answer. Or simply write —
+          both work.
+        </p>
+
+        <!-- ═══ EDIT: your contact links ═══ -->
+        <ul class="contact-list">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7 L12 13 L21 7"/></svg>
+            <a href="mailto:wladyslaw.pshenychnyy@gmail.com">wladyslaw.pshenychnyy@gmail.com</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 19 C4 20.5 4 16.5 2 16 M16 22 V18.1 C16 17 15.6 16.2 15 15.7 C18.2 15.3 21.5 14.1 21.5 8.5 C21.5 7.1 21 5.9 20.1 5 C20.5 3.9 20.4 2.7 20 2 C20 2 18.8 1.6 16.1 3.4 C13.7 2.8 11.3 2.8 9 3.4 C6.2 1.6 5 2 5 2 C4.6 2.7 4.5 3.9 4.9 5 C4 5.9 3.5 7.1 3.5 8.5 C3.5 14.1 6.8 15.3 10 15.7 C9.5 16.2 9 17 9 18 V22"/></svg>
+            <a href="https://github.com/Batowlad" rel="noopener">github.com/Batowlad</a>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 11 V16 M8 8 V8.01 M12 16 V11 M16 16 V13 C16 11.9 15.1 11 14 11 C13.3 11 12.6 11.4 12 12"/></svg>
+            <a href="#" rel="noopener">linkedin.com/in/your-profile</a>
+          </li>
+        </ul>
+      </article>
+
+      <p class="return"><button class="return-link" type="button">— Return to the Gathering —</button></p>
+    </div>
+  </div>
+
+  <noscript>
+    <style>
+      #scene { display: none; }
+      #overlay { display: block !important; position: static; clip-path: none !important; opacity: 1 !important; }
+      #overlay[hidden] { display: block !important; }
+      .chapter[hidden] { display: block !important; }
+      .overlay-close, .return { display: none !important; }
+      body { overflow: auto !important; }
+    </style>
+  </noscript>
+
+  <script src="js/fog.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
