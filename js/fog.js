@@ -59,6 +59,7 @@ const FogEngine = (() => {
     }
 
     resize() {
+      if (!this.canvas.clientWidth || !this.canvas.clientHeight) return;
       const dpr = Math.min(window.devicePixelRatio || 1, DPR_CAP);
       this.w = this.canvas.clientWidth;
       this.h = this.canvas.clientHeight;
@@ -181,37 +182,33 @@ const FogEngine = (() => {
       const front = document.getElementById("fog-front");
       if (!back || !front) return;
 
-      layers = [
-        // the deep cloud sea behind the gathering
-        new Layer(back, {
+      // when the WebGL cloud shader owns the back canvas, this engine
+      // only supplies the thin drifting veils in front of the figures
+      const shaderClouds = typeof CloudEngine !== "undefined" && CloudEngine.active;
+
+      layers = [];
+      if (!shaderClouds) {
+        layers.push(new Layer(back, {
           density: 122,
           scaleMin: 1.6, scaleMax: 4.4,
           speedMin: 3, speedMax: 9,
           alphaMin: 0.75, alphaMax: 1,
           bias: 1,
           edgeBias: 0.56,
-        }),
-        // thin veils drifting in front — capped so the figures stay visible
-        new Layer(front, {
-          density: 26,
-          scaleMin: 2.4, scaleMax: 5.4,
-          speedMin: 7, speedMax: 16,
-          alphaMin: 0.34, alphaMax: 0.6,
-          bias: 0.62,
-          edgeBias: 0.62,
-        }),
-      ];
+        }));
+      }
+      layers.push(new Layer(front, {
+        density: 22,
+        scaleMin: 2.4, scaleMax: 5.4,
+        speedMin: 7, speedMax: 16,
+        alphaMin: 0.26, alphaMax: 0.48,
+        bias: 0.62,
+        edgeBias: 0.62,
+      }));
 
-      let resizeTimer;
-      window.addEventListener("resize", () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-          for (const l of layers) l.resize();
-          // repaint right away — resizing a canvas wipes it, and the rAF
-          // loop may be throttled or paused (hidden tab, reduced motion)
-          drawStaticFrame();
-        }, 150);
-      });
+      // repaint immediately — resizing a canvas wipes it, and the rAF
+      // loop may be throttled or paused (hidden tab, reduced motion)
+      window.addEventListener("resize", () => this.renderOnce());
 
       document.addEventListener("visibilitychange", () => {
         if (document.hidden) this.pause();
@@ -231,6 +228,9 @@ const FogEngine = (() => {
 
     /** Draw a single frame regardless of pause state (debug / static veil). */
     renderOnce() {
+      for (const l of layers) {
+        if (l.w !== l.canvas.clientWidth || l.h !== l.canvas.clientHeight) l.resize();
+      }
       drawStaticFrame();
     },
 

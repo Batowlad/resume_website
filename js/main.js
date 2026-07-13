@@ -41,6 +41,7 @@
     scroller.scrollTop = 0;
     openSeat = focusOrigin || null;
     FogEngine.pause();
+    if (typeof CloudEngine !== "undefined") CloudEngine.pause();
 
     history.replaceState(null, "", `#${id}`);
     hint?.classList.add("is-dismissed");
@@ -60,6 +61,7 @@
       overlay.hidden = true;
       closing = false;
       FogEngine.resume();
+      if (typeof CloudEngine !== "undefined") CloudEngine.resume();
       history.replaceState(null, "", window.location.pathname + window.location.search);
       openSeat?.focus({ preventScroll: true });
       openSeat = null;
@@ -134,4 +136,20 @@
   });
 
   openFromHash();
+
+  /* ── film grain tile ── */
+  const grain = document.querySelector(".grain");
+  if (grain) {
+    const g = document.createElement("canvas");
+    g.width = g.height = 128;
+    const gtx = g.getContext("2d");
+    const img = gtx.createImageData(128, 128);
+    for (let i = 0; i < img.data.length; i += 4) {
+      const v = 110 + Math.random() * 90;
+      img.data[i] = img.data[i + 1] = img.data[i + 2] = v;
+      img.data[i + 3] = 26;
+    }
+    gtx.putImageData(img, 0, 0);
+    grain.style.backgroundImage = `url(${g.toDataURL()})`;
+  }
 })();
