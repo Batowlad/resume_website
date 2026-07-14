@@ -126,7 +126,8 @@ void main() {
     acc = acc * (1.0 - a) + a;
   }
 
-  gl_FragColor = vec4(col, acc);
+  /* dimmed slightly so the painted cloud plate shows through between billows */
+  gl_FragColor = vec4(col, acc * 0.8);
 }
 `;
 

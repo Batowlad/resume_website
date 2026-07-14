@@ -158,6 +158,9 @@
     <!-- The radiant light above the gray fog -->
     <div class="halo" aria-hidden="true"></div>
 
+    <!-- The painted sea of clouds (the shader drifts above it) -->
+    <div class="cloud-plate" aria-hidden="true"></div>
+
     <!-- Crimson stars scattered in the sky -->
     <div class="sky-stars" aria-hidden="true">
       <span style="--sx:63%; --sy:9%;  --ss:1;   --sd:0s"></span>
@@ -180,8 +183,8 @@
     <div class="dais" aria-hidden="true"></div>
 
     <!-- Broken stone stumps at the near corners -->
-    <svg class="stump stump--l" viewBox="0 0 60 170" preserveAspectRatio="none" aria-hidden="true" focusable="false"><use href="#sym-stump"/></svg>
-    <svg class="stump stump--r" viewBox="0 0 60 170" preserveAspectRatio="none" aria-hidden="true" focusable="false"><use href="#sym-stump"/></svg>
+    <img class="stump stump--l" src="assets/stump.png" alt="" draggable="false" aria-hidden="true">
+    <img class="stump stump--r" src="assets/stump.png" alt="" draggable="false" aria-hidden="true">
 
     <!-- light spilling from the halo down the table -->
     <div class="lightshaft" aria-hidden="true"></div>
@@ -211,11 +214,9 @@
           <span class="sect">About Me</span>
         </span>
         <span class="apparition">
-          <svg class="chair" viewBox="0 0 120 260" preserveAspectRatio="none" aria-hidden="true" focusable="false"><use href="#sym-canopy"/></svg>
-          <svg class="figure" viewBox="0 0 100 130" preserveAspectRatio="xMidYMax meet">
-            <path fill="url(#fogbody)" d="M50 8 C58 8 64 15 65 25 C65 32 62 38 57 42 C65 46 71 55 75 67 C79 79 82 95 83 112 C84 122 83 127 82 130 L18 130 C17 127 16 122 17 112 C18 95 21 79 25 67 C29 55 35 46 43 42 C38 38 35 32 35 25 C36 15 42 8 50 8 Z"/>
-            <path fill="rgba(13,16,24,0.5)" d="M50 14 C55 14 59 19 60 26 C60 31 57 36 52 39 L48 39 C43 36 40 31 40 26 C41 19 45 14 50 14 Z"/>
-          </svg>
+          <img class="chair" src="assets/canopy.png" alt="" draggable="false">
+          <span class="arch-glow" aria-hidden="true"></span>
+          <img class="figure" src="assets/dark_figure.png" alt="" draggable="false">
           <span class="star"><span class="glow"></span><span class="ray ray--v"></span><span class="ray ray--h"></span><span class="core"></span></span>
         </span>
       </button>
@@ -229,11 +230,8 @@
           <span class="sect">Internships</span>
         </span>
         <span class="apparition">
-          <svg class="chair" viewBox="0 0 112 190" preserveAspectRatio="none" aria-hidden="true" focusable="false"><use href="#sym-chair"/></svg>
-          <svg class="figure" viewBox="0 0 100 130" preserveAspectRatio="xMidYMax meet">
-            <path fill="url(#fogbody)" d="M50 8 C58 8 64 15 65 25 C65 32 62 38 57 42 C65 46 71 55 75 67 C79 79 82 95 83 112 C84 122 83 127 82 130 L18 130 C17 127 16 122 17 112 C18 95 21 79 25 67 C29 55 35 46 43 42 C38 38 35 32 35 25 C36 15 42 8 50 8 Z"/>
-            <path fill="rgba(13,16,24,0.5)" d="M50 14 C55 14 59 19 60 26 C60 31 57 36 52 39 L48 39 C43 36 40 31 40 26 C41 19 45 14 50 14 Z"/>
-          </svg>
+          <img class="chair" src="assets/chair.png" alt="" draggable="false">
+          <img class="figure" src="assets/dark_figure.png" alt="" draggable="false">
           <span class="star"><span class="glow"></span><span class="ray ray--v"></span><span class="ray ray--h"></span><span class="core"></span></span>
         </span>
       </button>
@@ -246,11 +244,8 @@
           <span class="sect">Skills</span>
         </span>
         <span class="apparition">
-          <svg class="chair" viewBox="0 0 112 190" preserveAspectRatio="none" aria-hidden="true" focusable="false"><use href="#sym-chair"/></svg>
-          <svg class="figure" viewBox="0 0 100 130" preserveAspectRatio="xMidYMax meet">
-            <path fill="url(#fogbody)" d="M50 8 C58 8 64 15 65 25 C65 32 62 38 57 42 C65 46 71 55 75 67 C79 79 82 95 83 112 C84 122 83 127 82 130 L18 130 C17 127 16 122 17 112 C18 95 21 79 25 67 C29 55 35 46 43 42 C38 38 35 32 35 25 C36 15 42 8 50 8 Z"/>
-            <path fill="rgba(13,16,24,0.5)" d="M50 14 C55 14 59 19 60 26 C60 31 57 36 52 39 L48 39 C43 36 40 31 40 26 C41 19 45 14 50 14 Z"/>
-          </svg>
+          <img class="chair" src="assets/chair.png" alt="" draggable="false">
+          <img class="figure" src="assets/dark_figure.png" alt="" draggable="false">
           <span class="star"><span class="glow"></span><span class="ray ray--v"></span><span class="ray ray--h"></span><span class="core"></span></span>
         </span>
       </button>
@@ -263,11 +258,8 @@
           <span class="sect">Contact</span>
         </span>
         <span class="apparition">
-          <svg class="chair" viewBox="0 0 112 190" preserveAspectRatio="none" aria-hidden="true" focusable="false"><use href="#sym-chair"/></svg>
-          <svg class="figure" viewBox="0 0 100 130" preserveAspectRatio="xMidYMax meet">
-            <path fill="url(#fogbody)" d="M50 8 C58 8 64 15 65 25 C65 32 62 38 57 42 C65 46 71 55 75 67 C79 79 82 95 83 112 C84 122 83 127 82 130 L18 130 C17 127 16 122 17 112 C18 95 21 79 25 67 C29 55 35 46 43 42 C38 38 35 32 35 25 C36 15 42 8 50 8 Z"/>
-            <path fill="rgba(13,16,24,0.5)" d="M50 14 C55 14 59 19 60 26 C60 31 57 36 52 39 L48 39 C43 36 40 31 40 26 C41 19 45 14 50 14 Z"/>
-          </svg>
+          <img class="chair" src="assets/chair.png" alt="" draggable="false">
+          <img class="figure" src="assets/dark_figure.png" alt="" draggable="false">
           <span class="star"><span class="glow"></span><span class="ray ray--v"></span><span class="ray ray--h"></span><span class="core"></span></span>
         </span>
       </button>
@@ -281,11 +273,8 @@
           <span class="sect">Projects</span>
         </span>
         <span class="apparition">
-          <svg class="chair" viewBox="0 0 112 190" preserveAspectRatio="none" aria-hidden="true" focusable="false"><use href="#sym-chair"/></svg>
-          <svg class="figure" viewBox="0 0 100 130" preserveAspectRatio="xMidYMax meet">
-            <path fill="url(#fogbody)" d="M50 8 C58 8 64 15 65 25 C65 32 62 38 57 42 C65 46 71 55 75 67 C79 79 82 95 83 112 C84 122 83 127 82 130 L18 130 C17 127 16 122 17 112 C18 95 21 79 25 67 C29 55 35 46 43 42 C38 38 35 32 35 25 C36 15 42 8 50 8 Z"/>
-            <path fill="rgba(13,16,24,0.5)" d="M50 14 C55 14 59 19 60 26 C60 31 57 36 52 39 L48 39 C43 36 40 31 40 26 C41 19 45 14 50 14 Z"/>
-          </svg>
+          <img class="chair" src="assets/chair.png" alt="" draggable="false">
+          <img class="figure" src="assets/dark_figure.png" alt="" draggable="false">
           <span class="star"><span class="glow"></span><span class="ray ray--v"></span><span class="ray ray--h"></span><span class="core"></span></span>
         </span>
       </button>
@@ -298,18 +287,15 @@
           <span class="sect">Education</span>
         </span>
         <span class="apparition">
-          <svg class="chair" viewBox="0 0 112 190" preserveAspectRatio="none" aria-hidden="true" focusable="false"><use href="#sym-chair"/></svg>
-          <svg class="figure" viewBox="0 0 100 130" preserveAspectRatio="xMidYMax meet">
-            <path fill="url(#fogbody)" d="M50 8 C58 8 64 15 65 25 C65 32 62 38 57 42 C65 46 71 55 75 67 C79 79 82 95 83 112 C84 122 83 127 82 130 L18 130 C17 127 16 122 17 112 C18 95 21 79 25 67 C29 55 35 46 43 42 C38 38 35 32 35 25 C36 15 42 8 50 8 Z"/>
-            <path fill="rgba(13,16,24,0.5)" d="M50 14 C55 14 59 19 60 26 C60 31 57 36 52 39 L48 39 C43 36 40 31 40 26 C41 19 45 14 50 14 Z"/>
-          </svg>
+          <img class="chair" src="assets/chair.png" alt="" draggable="false">
+          <img class="figure" src="assets/dark_figure.png" alt="" draggable="false">
           <span class="star"><span class="glow"></span><span class="ray ray--v"></span><span class="ray ray--h"></span><span class="core"></span></span>
         </span>
       </button>
 
       <!-- An empty seat — some members have yet to arrive -->
       <span class="seat-empty" aria-hidden="true" style="--s:.6; --x:60.5%; --y:45vh;">
-        <svg class="chair" viewBox="0 0 112 190" preserveAspectRatio="none" aria-hidden="true" focusable="false"><use href="#sym-chair"/></svg>
+        <img class="chair" src="assets/chair.png" alt="" draggable="false">
       </span>
 
     </div>
