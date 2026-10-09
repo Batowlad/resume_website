@@ -2,11 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "resume-site",
-      "runtimeExecutable": "npx",
-      "runtimeArgs": ["--yes", "http-server", "-a", "127.0.0.1", "-c-1", "."],
-      "port": 4173,
-      "autoPort": true
+      "name": "site",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4177"],
+      "port": 4177
     }
   ]
 }

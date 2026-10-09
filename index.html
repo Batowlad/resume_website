@@ -1,559 +1,326 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Wladyslaw Pshenychnyy — Above the Gray Fog</title>
-  <meta name="description" content="Resume of Wladyslaw Pshenychnyy — a gathering of the Tarot Club above the gray fog. Choose a crimson star to unveil a chapter.">
-  <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M16 2 L19 13 L30 16 L19 19 L16 30 L13 19 L2 16 L13 13 Z" fill="%23c41e3a"/></svg>'>
+  <!-- EDIT: your name and title -->
+  <title>Your Name · Machine Learning Engineer</title>
+  <meta name="description" content="Your Name is a machine learning engineer. Experience, projects, awards and contact.">
+  <meta name="theme-color" content="#06080c">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2306080c'/%3E%3Cpath d='M8 9 16 16 24 10M8 23 16 16 24 22M8 9 24 22M8 23 24 10' stroke='%236ee7d3' stroke-opacity='.45' fill='none'/%3E%3Cg fill='%236ee7d3'%3E%3Ccircle cx='8' cy='9' r='2.4'/%3E%3Ccircle cx='8' cy='23' r='2.4'/%3E%3Ccircle cx='24' cy='10' r='2.4'/%3E%3Ccircle cx='24' cy='22' r='2.4'/%3E%3Ccircle cx='16' cy='16' r='3'/%3E%3C/g%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
+  <a class="skip" href="#main">Skip to content</a>
 
-  <!-- Shared SVG defs (fog-body gradient for the apparitions) -->
-  <svg class="svg-defs" aria-hidden="true" focusable="false">
-    <defs>
-      <linearGradient id="fogbody" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0"   stop-color="#3f4859" stop-opacity="0.98"/>
-        <stop offset="0.5" stop-color="#2b3345" stop-opacity="0.94"/>
-        <stop offset="1"   stop-color="#202737" stop-opacity="0.55"/>
-      </linearGradient>
-      <linearGradient id="boneV" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0"    stop-color="#ece7d8"/>
-        <stop offset="0.3"  stop-color="#d3cebe"/>
-        <stop offset="0.65" stop-color="#a8a394"/>
-        <stop offset="1"    stop-color="#7b7669"/>
-      </linearGradient>
-      <linearGradient id="bonePost" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0"   stop-color="#e0dbcb"/>
-        <stop offset="0.5" stop-color="#b5b09f"/>
-        <stop offset="1"   stop-color="#8a8574"/>
-      </linearGradient>
-      <linearGradient id="canopyG" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0"    stop-color="#4d5449"/>
-        <stop offset="0.4"  stop-color="#3a4143"/>
-        <stop offset="0.75" stop-color="#2b313c"/>
-        <stop offset="1"    stop-color="#1f2530"/>
-      </linearGradient>
-      <linearGradient id="archG" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0"   stop-color="#f5f1e0" stop-opacity="0.95"/>
-        <stop offset="0.6" stop-color="#e8e4d4" stop-opacity="0.4"/>
-        <stop offset="1"   stop-color="#e8e4d4" stop-opacity="0.08"/>
-      </linearGradient>
-      <linearGradient id="stumpG" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0"    stop-color="#454e62"/>
-        <stop offset="0.45" stop-color="#333b4d"/>
-        <stop offset="0.8"  stop-color="#232936"/>
-        <stop offset="1"    stop-color="#1a1f2a"/>
-      </linearGradient>
-      <linearGradient id="boneSide" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0"   stop-color="#b2ad9d"/>
-        <stop offset="0.5" stop-color="#847f70"/>
-        <stop offset="1"   stop-color="#5c574d"/>
-      </linearGradient>
-
-      <!-- weathered bone: edge roughening + stains + grain (chairs, dais, stumps) -->
-      <filter id="boneTex" x="-8%" y="-8%" width="116%" height="116%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.02 0.035" numOctaves="2" seed="3" result="warp"/>
-        <feDisplacementMap in="SourceGraphic" in2="warp" scale="4" xChannelSelector="R" yChannelSelector="G" result="disp"/>
-        <feTurbulence type="fractalNoise" baseFrequency="0.09 0.12" numOctaves="3" seed="8" result="bl"/>
-        <feColorMatrix in="bl" type="matrix"
-          values="0 0 0 0 0.09
-                  0 0 0 0 0.086
-                  0 0 0 0 0.09
-                  0.42 0.42 0.42 0 -0.68" result="blA"/>
-        <feComposite in="blA" in2="disp" operator="in" result="stains"/>
-        <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="2" seed="5" result="gr"/>
-        <feColorMatrix in="gr" type="matrix"
-          values="0 0 0 0 0.05
-                  0 0 0 0 0.05
-                  0 0 0 0 0.06
-                  0.38 0.38 0.38 0 -0.68" result="grA"/>
-        <feComposite in="grA" in2="disp" operator="in" result="specks"/>
-        <feMerge>
-          <feMergeNode in="disp"/>
-          <feMergeNode in="stains"/>
-          <feMergeNode in="specks"/>
-        </feMerge>
-      </filter>
-
-      <!-- weathered stone at table scale: broad blotches + fine grain -->
-      <filter id="stoneTexBig" x="-4%" y="-4%" width="108%" height="108%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.006 0.012" numOctaves="4" seed="13" result="bl"/>
-        <feColorMatrix in="bl" type="matrix"
-          values="0 0 0 0 0.08
-                  0 0 0 0 0.077
-                  0 0 0 0 0.085
-                  0.45 0.45 0.45 0 -0.62" result="blA"/>
-        <feComposite in="blA" in2="SourceAlpha" operator="in" result="stains"/>
-        <feTurbulence type="fractalNoise" baseFrequency="0.45" numOctaves="2" seed="21" result="gr"/>
-        <feColorMatrix in="gr" type="matrix"
-          values="0 0 0 0 0.05
-                  0 0 0 0 0.05
-                  0 0 0 0 0.06
-                  0.4 0.4 0.4 0 -0.7" result="grA"/>
-        <feComposite in="grA" in2="SourceAlpha" operator="in" result="specks"/>
-        <feMerge>
-          <feMergeNode in="SourceGraphic"/>
-          <feMergeNode in="stains"/>
-          <feMergeNode in="specks"/>
-        </feMerge>
-      </filter>
-
-      <!-- tall gothic stall chair, weathered bone: front face, carved
-           panel, and a shadowed side-return giving it thickness -->
-      <symbol id="sym-chair" viewBox="0 0 112 190">
-        <!-- side-return face (the chair's thickness, seen from the aisle) -->
-        <path fill="url(#boneSide)" d="M77 52 L92 61 L92 184 L77 190 Z"/>
-        <path fill="#a8a394" d="M77 44 L88 53 L92 61 L77 52 Z"/>
-        <!-- front back-panel with pointed arch -->
-        <path fill="url(#boneV)" d="M24 190 L24 64 C24 44 30 30 38 20 C43 13 47 8 51 5 C54 8 58 13 63 20 C71 30 77 44 77 64 L77 190 Z"/>
-        <!-- shading against the figure side -->
-        <path fill="rgba(44,51,68,0.24)" d="M60 190 L60 60 C60 44 56 30 50 20 C58 28 70 42 70 62 L70 190 Z"/>
-        <!-- carved inset arch groove -->
-        <path fill="none" stroke="rgba(74,68,56,0.4)" stroke-width="2" d="M31 182 L31 68 C31 50 36 37 43 27 C46 22 49 18 51 15 C53 18 56 22 59 27 C66 37 70 50 70 68 L70 182"/>
-        <path fill="none" stroke="rgba(255,252,240,0.16)" stroke-width="1.5" d="M32.5 183.5 L32.5 68 C32.5 51 37.5 38 44.5 28 C47.5 23 50.5 19 52.5 16.5"/>
-        <!-- linenfold grooves -->
-        <path fill="none" stroke="rgba(74,68,56,0.22)" stroke-width="1.6" d="M40 178 L40 98 M50 178 L50 92 M60 178 L60 98"/>
-        <!-- corner posts (drawn over the side-face seam) -->
-        <path fill="url(#bonePost)" d="M8 190 L8 60 L14 44 L20 60 L20 190 Z"/>
-        <path fill="url(#bonePost)" d="M71 190 L71 60 L77 44 L83 60 L83 190 Z"/>
-        <path fill="rgba(60,55,45,0.3)" d="M17 60 L20 60 L20 190 L17 190 Z M80 60 L83 60 L83 190 L80 190 Z"/>
-        <circle cx="14" cy="38" r="4.5" fill="#d8d3c3"/>
-        <circle cx="77" cy="38" r="4.5" fill="#d8d3c3"/>
-        <path fill="none" stroke="rgba(255,254,242,0.25)" stroke-width="1.5" d="M27 186 L27 66 C27 48 33 33 41 23"/>
-      </symbol>
-
-      <!-- the Fool's crocketed spire canopy -->
-      <symbol id="sym-canopy" viewBox="0 0 120 260">
-        <path fill="url(#canopyG)" d="M14 260 L14 150 C14 138 17 128 22 120 C27 128 30 138 30 150 L30 260 Z"/>
-        <path fill="url(#canopyG)" d="M90 260 L90 150 C90 138 93 128 98 120 C103 128 106 138 106 150 L106 260 Z"/>
-        <circle cx="22" cy="114" r="4" fill="#565e52"/>
-        <circle cx="98" cy="114" r="4" fill="#565e52"/>
-        <path fill="#3f4640" d="M58 0 L62 0 L62 12 L58 12 Z M54 4 L66 4 L66 8 L54 8 Z"/>
-        <path fill="url(#canopyG)" d="M60 8 C63 14 66 22 68 32 L74 34 L70 44 L78 50 L74 58 L84 66 L84 110 L92 120 L92 260 L28 260 L28 120 L36 110 L36 66 L46 58 L42 50 L50 44 L46 34 L52 32 C54 22 57 14 60 8 Z"/>
-        <path fill="url(#archG)" d="M60 128 C70 140 75 154 75 172 L75 236 L45 236 L45 172 C45 154 50 140 60 128 Z"/>
-        <path fill="none" stroke="rgba(240,236,224,0.35)" stroke-width="1.5" d="M60 128 C70 140 75 154 75 172 L75 236 L45 236 L45 172 C45 154 50 140 60 128 Z"/>
-        <path fill="rgba(16,20,28,0.55)" d="M28 236 L92 236 L92 260 L28 260 Z"/>
-        <path fill="none" stroke="rgba(226,230,238,0.16)" stroke-width="1.5" d="M60 10 C57 16 55 23 53 32 L47 35 M46 59 L37 67 L37 109 L29 119"/>
-      </symbol>
-
-      <!-- broken stone stump -->
-      <symbol id="sym-stump" viewBox="0 0 60 170">
-        <path fill="url(#stumpG)" d="M6 170 L6 44 L12 24 L18 40 L26 12 L34 34 L42 20 L50 40 L54 30 L54 170 Z"/>
-        <path fill="none" stroke="rgba(12,16,24,0.5)" stroke-width="2" d="M22 60 L26 90 M38 54 L34 86"/>
-        <path fill="none" stroke="rgba(210,216,228,0.18)" stroke-width="1.5" d="M6 44 L12 24 L18 40 L26 12"/>
-      </symbol>
-    </defs>
-  </svg>
-
-  <!-- ═══════════════════════ THE GATHERING (main menu) ═══════════════════════ -->
-  <main id="scene" aria-label="The Tarot Club gathering — choose a seat to view a resume section">
-
-    <div class="sky" aria-hidden="true"></div>
-
-    <!-- The radiant light above the gray fog -->
-    <div class="halo" aria-hidden="true"></div>
-
-    <!-- The painted sea of clouds (the shader drifts above it) -->
-    <div class="cloud-plate" aria-hidden="true"></div>
-
-    <!-- Crimson stars scattered in the sky -->
-    <div class="sky-stars" aria-hidden="true">
-      <span style="--sx:63%; --sy:9%;  --ss:1;   --sd:0s"></span>
-      <span style="--sx:71%; --sy:17%; --ss:.7;  --sd:1.4s"></span>
-      <span style="--sx:57%; --sy:23%; --ss:.85; --sd:2.6s"></span>
-      <span style="--sx:33%; --sy:12%; --ss:.6;  --sd:3.4s"></span>
-      <span style="--sx:25%; --sy:25%; --ss:.75; --sd:.8s"></span>
-      <span style="--sx:82%; --sy:29%; --ss:.55; --sd:4.2s"></span>
-    </div>
-
-    <canvas id="fog-back" aria-hidden="true"></canvas>
-
-    <!-- The pale long table, descending from the light -->
-    <div class="table" aria-hidden="true">
-      <div class="table-surface"></div>
-      <div class="table-runner"></div>
-    </div>
-
-    <!-- The Fool's dais with its cross-braced front -->
-    <div class="dais" aria-hidden="true"></div>
-
-    <!-- Broken stone stumps at the near corners -->
-    <img class="stump stump--l" src="assets/stump.png" alt="" draggable="false" aria-hidden="true">
-    <img class="stump stump--r" src="assets/stump.png" alt="" draggable="false" aria-hidden="true">
-
-    <!-- light spilling from the halo down the table -->
-    <div class="lightshaft" aria-hidden="true"></div>
-
-    <div class="mist" aria-hidden="true"></div>
-
-    <!-- Crimson embers burning in the clouds -->
-    <div class="embers" aria-hidden="true"><span></span><span></span></div>
-
-    <!-- Name / masthead -->
-    <header class="masthead">
-      <p class="overline">Above the Gray Fog&nbsp;&nbsp;·&nbsp;&nbsp;The Tarot Club</p>
-      <!-- ═══ EDIT: your name and title ═══ -->
-      <h1>Wladyslaw Pshenychnyy</h1>
-      <p class="tagline">Software Developer — the gathering has convened</p>
-    </header>
-
-    <!-- ═══ The seats: fog-shrouded figures with crimson stars ═══ -->
-    <div class="seats">
-
-      <!-- Head of the table -->
-      <button class="seat seat--fool" data-chapter="about"
-              style="--s:.52; --x:50%; --y:61vh; --blur:5px; --pulse:0s"
-              aria-label="The Fool — About Me" aria-haspopup="dialog">
-        <span class="label" aria-hidden="true">
-          <span class="honor">The Fool</span>
-          <span class="sect">About Me</span>
-        </span>
-        <span class="apparition">
-          <img class="chair" src="assets/canopy.png" alt="" draggable="false">
-          <span class="arch-glow" aria-hidden="true"></span>
-          <img class="figure" src="assets/dark_figure.png" alt="" draggable="false">
-          <span class="star"><span class="glow"></span><span class="ray ray--v"></span><span class="ray ray--h"></span><span class="core"></span></span>
-        </span>
-      </button>
-
-      <!-- Left side of the table -->
-      <button class="seat seat--near" data-chapter="internships"
-              style="--s:1.05; --x:21%; --y:9vh; --blur:4.5px; --pulse:.7s"
-              aria-label="Justice — Internships" aria-haspopup="dialog">
-        <span class="label" aria-hidden="true">
-          <span class="honor">Justice</span>
-          <span class="sect">Internships</span>
-        </span>
-        <span class="apparition">
-          <img class="chair" src="assets/chair.png" alt="" draggable="false">
-          <img class="figure" src="assets/dark_figure.png" alt="" draggable="false">
-          <span class="star"><span class="glow"></span><span class="ray ray--v"></span><span class="ray ray--h"></span><span class="core"></span></span>
-        </span>
-      </button>
-
-      <button class="seat" data-chapter="skills"
-              style="--s:.78; --x:31.5%; --y:30vh; --blur:5px; --pulse:1.6s"
-              aria-label="The Hermit — Skills" aria-haspopup="dialog">
-        <span class="label" aria-hidden="true">
-          <span class="honor">The Hermit</span>
-          <span class="sect">Skills</span>
-        </span>
-        <span class="apparition">
-          <img class="chair" src="assets/chair.png" alt="" draggable="false">
-          <img class="figure" src="assets/dark_figure.png" alt="" draggable="false">
-          <span class="star"><span class="glow"></span><span class="ray ray--v"></span><span class="ray ray--h"></span><span class="core"></span></span>
-        </span>
-      </button>
-
-      <button class="seat" data-chapter="contact"
-              style="--s:.6; --x:39.5%; --y:45vh; --blur:5.5px; --pulse:2.3s"
-              aria-label="The Star — Contact" aria-haspopup="dialog">
-        <span class="label" aria-hidden="true">
-          <span class="honor">The Star</span>
-          <span class="sect">Contact</span>
-        </span>
-        <span class="apparition">
-          <img class="chair" src="assets/chair.png" alt="" draggable="false">
-          <img class="figure" src="assets/dark_figure.png" alt="" draggable="false">
-          <span class="star"><span class="glow"></span><span class="ray ray--v"></span><span class="ray ray--h"></span><span class="core"></span></span>
-        </span>
-      </button>
-
-      <!-- Right side of the table -->
-      <button class="seat seat--near" data-chapter="projects"
-              style="--s:1.05; --x:79%; --y:9vh; --blur:4.5px; --pulse:1.1s"
-              aria-label="The Magician — Projects" aria-haspopup="dialog">
-        <span class="label" aria-hidden="true">
-          <span class="honor">The Magician</span>
-          <span class="sect">Projects</span>
-        </span>
-        <span class="apparition">
-          <img class="chair" src="assets/chair.png" alt="" draggable="false">
-          <img class="figure" src="assets/dark_figure.png" alt="" draggable="false">
-          <span class="star"><span class="glow"></span><span class="ray ray--v"></span><span class="ray ray--h"></span><span class="core"></span></span>
-        </span>
-      </button>
-
-      <button class="seat" data-chapter="education"
-              style="--s:.78; --x:68.5%; --y:30vh; --blur:5px; --pulse:.3s"
-              aria-label="The Sun — Education" aria-haspopup="dialog">
-        <span class="label" aria-hidden="true">
-          <span class="honor">The Sun</span>
-          <span class="sect">Education</span>
-        </span>
-        <span class="apparition">
-          <img class="chair" src="assets/chair.png" alt="" draggable="false">
-          <img class="figure" src="assets/dark_figure.png" alt="" draggable="false">
-          <span class="star"><span class="glow"></span><span class="ray ray--v"></span><span class="ray ray--h"></span><span class="core"></span></span>
-        </span>
-      </button>
-
-      <!-- An empty seat — some members have yet to arrive -->
-      <span class="seat-empty" aria-hidden="true" style="--s:.6; --x:60.5%; --y:45vh;">
-        <img class="chair" src="assets/chair.png" alt="" draggable="false">
-      </span>
-
-    </div>
-
-    <canvas id="fog-front" aria-hidden="true"></canvas>
-    <div class="grade" aria-hidden="true"></div>
-    <div class="vignette" aria-hidden="true"></div>
-    <div class="grain" aria-hidden="true"></div>
-
-    <p class="hint" id="hint">✦&nbsp;&nbsp;Touch a crimson star to unveil that chapter&nbsp;&nbsp;✦</p>
-  </main>
-
-  <!-- ═══════════════════════ THE CHAPTERS (overlay) ═══════════════════════ -->
-  <div id="overlay" role="dialog" aria-modal="true" hidden>
-    <div class="overlay-veil" aria-hidden="true"></div>
-
-    <button class="overlay-close" aria-label="Return to the gathering (Esc)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
-        <path d="M5 5 L19 19 M19 5 L5 19"/>
-      </svg>
-    </button>
-
-    <div class="overlay-scroll" tabindex="-1">
-
-      <!-- ─────────────── THE FOOL · ABOUT ME ─────────────── -->
-      <article class="chapter" data-chapter="about" hidden>
-        <header class="chapter-head">
-          <svg class="sigil" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-            <circle cx="24" cy="24" r="17"/>
-            <path d="M24 10 L27 21 L38 24 L27 27 L24 38 L21 27 L10 24 L21 21 Z"/>
-          </svg>
-          <p class="honorific">The Fool</p>
-          <h2 class="chapter-title" tabindex="-1">About Me</h2>
-          <div class="rule"><span>✦</span></div>
-        </header>
-
-        <blockquote class="chant">
-          “The Fool that doesn’t belong to this era; the mysterious ruler above
-          the gray fog; the King of Yellow and Black who wields good luck.”
-        </blockquote>
-
-        <!-- ═══ EDIT: replace with your own introduction ═══ -->
-        <p class="lead">
-          I am <strong>Wladyslaw Pshenychnyy</strong> — a software developer seated
-          above the gray fog. This is the placeholder for your introduction:
-          who you are, what you build, and what you are searching for.
-        </p>
-        <p>
-          Write two or three sentences here about your background, your favourite
-          technologies, and the kind of team or mission you want to join. Keep it
-          human — the fog conceals enough already.
-        </p>
-
-        <ul class="facts">
-          <li><span class="facts-key">Path</span> Software Development</li>
-          <li><span class="facts-key">Sequence</span> Junior → ascending</li>
-          <li><span class="facts-key">Location</span> Your City, Country</li>
-          <li><span class="facts-key">Interests</span> Games · Web · Systems</li>
-        </ul>
-      </article>
-
-      <!-- ─────────────── THE MAGICIAN · PROJECTS ─────────────── -->
-      <article class="chapter" data-chapter="projects" hidden>
-        <header class="chapter-head">
-          <svg class="sigil" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-            <circle cx="24" cy="24" r="17"/>
-            <path d="M24 12 V36 M14 17 L34 31 M34 17 L14 31"/>
-          </svg>
-          <p class="honorific">The Magician</p>
-          <h2 class="chapter-title" tabindex="-1">Projects</h2>
-          <div class="rule"><span>✦</span></div>
-        </header>
-
-        <p class="lead">Conjurations, tricks, and things willed into being.</p>
-
-        <!-- ═══ EDIT: one .card per project ═══ -->
-        <div class="cards">
-          <div class="card">
-            <h3>Project One</h3>
-            <p>A one-or-two sentence description of the project — the problem it
-               solves and what makes it interesting.</p>
-            <p class="tags"><span>Unity</span><span>C#</span><span>Shader</span></p>
-            <p class="card-links"><a href="#" rel="noopener">Repository ↗</a><a href="#" rel="noopener">Live demo ↗</a></p>
-          </div>
-          <div class="card">
-            <h3>Project Two</h3>
-            <p>Description placeholder. What you built, why, and the result —
-               numbers and outcomes read better than adjectives.</p>
-            <p class="tags"><span>JavaScript</span><span>Canvas</span><span>Web Audio</span></p>
-            <p class="card-links"><a href="#" rel="noopener">Repository ↗</a></p>
-          </div>
-          <div class="card">
-            <h3>Project Three</h3>
-            <p>Description placeholder. Mention your specific role if it was a
-               team effort.</p>
-            <p class="tags"><span>Python</span><span>FastAPI</span><span>PostgreSQL</span></p>
-            <p class="card-links"><a href="#" rel="noopener">Repository ↗</a></p>
-          </div>
-        </div>
-      </article>
-
-      <!-- ─────────────── JUSTICE · INTERNSHIPS ─────────────── -->
-      <article class="chapter" data-chapter="internships" hidden>
-        <header class="chapter-head">
-          <svg class="sigil" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-            <path d="M24 10 V34 M14 14 H34 M24 34 H24" />
-            <path d="M14 14 L10 24 A6 4 0 0 0 18 24 Z M34 14 L30 24 A6 4 0 0 0 38 24 Z"/>
-            <path d="M18 38 H30"/>
-          </svg>
-          <p class="honorific">Justice</p>
-          <h2 class="chapter-title" tabindex="-1">Internships</h2>
-          <div class="rule"><span>✦</span></div>
-        </header>
-
-        <p class="lead">Dues paid in full, weighed and found worthy.</p>
-
-        <!-- ═══ EDIT: one .entry per internship / job ═══ -->
-        <div class="timeline">
-          <div class="entry">
-            <p class="entry-when">Jun 2025 — Sep 2025</p>
-            <h3>Software Engineering Intern · Company Name</h3>
-            <ul>
-              <li>What you built or shipped — start with a verb, end with an outcome.</li>
-              <li>A second bullet: a technology you mastered or a metric you moved.</li>
-            </ul>
-          </div>
-          <div class="entry">
-            <p class="entry-when">Jun 2024 — Aug 2024</p>
-            <h3>Intern · Another Company</h3>
-            <ul>
-              <li>Placeholder bullet — keep each to a single line of impact.</li>
-              <li>Placeholder bullet — tools: X, Y, Z.</li>
-            </ul>
-          </div>
-        </div>
-      </article>
-
-      <!-- ─────────────── THE HERMIT · SKILLS ─────────────── -->
-      <article class="chapter" data-chapter="skills" hidden>
-        <header class="chapter-head">
-          <svg class="sigil" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-            <path d="M24 8 A16 16 0 1 0 24 40"/>
-            <circle cx="24" cy="24" r="6"/>
-            <path d="M24 18 V30 M18 24 H30"/>
-          </svg>
-          <p class="honorific">The Hermit</p>
-          <h2 class="chapter-title" tabindex="-1">Skills</h2>
-          <div class="rule"><span>✦</span></div>
-        </header>
-
-        <p class="lead">Knowledge hoarded in the lamplight, catalogued below.</p>
-
-        <!-- ═══ EDIT: your skill groups ═══ -->
-        <div class="skill-groups">
-          <div class="skill-group">
-            <h3>Languages</h3>
-            <p class="tags"><span>C#</span><span>Python</span><span>JavaScript</span><span>SQL</span></p>
-          </div>
-          <div class="skill-group">
-            <h3>Frameworks &amp; Engines</h3>
-            <p class="tags"><span>Unity</span><span>.NET</span><span>Node.js</span><span>React</span></p>
-          </div>
-          <div class="skill-group">
-            <h3>Tools</h3>
-            <p class="tags"><span>Git</span><span>Docker</span><span>Blender</span><span>Figma</span></p>
-          </div>
-          <div class="skill-group">
-            <h3>Languages Spoken</h3>
-            <p class="tags"><span>English</span><span>Ukrainian</span><span>Polish</span></p>
-          </div>
-        </div>
-      </article>
-
-      <!-- ─────────────── THE SUN · EDUCATION ─────────────── -->
-      <article class="chapter" data-chapter="education" hidden>
-        <header class="chapter-head">
-          <svg class="sigil" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-            <circle cx="24" cy="24" r="9"/>
-            <path d="M24 4 V10 M24 38 V44 M4 24 H10 M38 24 H44 M9.9 9.9 L14.1 14.1 M33.9 33.9 L38.1 38.1 M38.1 9.9 L33.9 14.1 M14.1 33.9 L9.9 38.1"/>
-          </svg>
-          <p class="honorific">The Sun</p>
-          <h2 class="chapter-title" tabindex="-1">Education</h2>
-          <div class="rule"><span>✦</span></div>
-        </header>
-
-        <p class="lead">Light gathered before the fog rolled in.</p>
-
-        <!-- ═══ EDIT: your education entries ═══ -->
-        <div class="timeline">
-          <div class="entry">
-            <p class="entry-when">2023 — 2027 (expected)</p>
-            <h3>B.Sc. Computer Science · University Name</h3>
-            <ul>
-              <li>Relevant coursework: Algorithms, Databases, Computer Graphics.</li>
-              <li>GPA / honours / scholarship — if it flatters you, list it.</li>
-            </ul>
-          </div>
-          <div class="entry">
-            <p class="entry-when">Certificates</p>
-            <h3>Courses &amp; Certifications</h3>
-            <ul>
-              <li>Placeholder certificate — issuer, year.</li>
-              <li>Placeholder course — platform, year.</li>
-            </ul>
-          </div>
-        </div>
-      </article>
-
-      <!-- ─────────────── THE STAR · CONTACT ─────────────── -->
-      <article class="chapter" data-chapter="contact" hidden>
-        <header class="chapter-head">
-          <svg class="sigil" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
-            <path d="M24 6 L27 17 L38 14 L31 23 L42 27 L30 28 L33 40 L24 32 L15 40 L18 28 L6 27 L17 23 L10 14 L21 17 Z"/>
-          </svg>
-          <p class="honorific">The Star</p>
-          <h2 class="chapter-title" tabindex="-1">Contact</h2>
-          <div class="rule"><span>✦</span></div>
-        </header>
-
-        <p class="lead">
-          Recite the honorific name, and the star shall answer. Or simply write —
-          both work.
-        </p>
-
-        <!-- ═══ EDIT: your contact links ═══ -->
-        <ul class="contact-list">
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7 L12 13 L21 7"/></svg>
-            <a href="mailto:wladyslaw.pshenychnyy@gmail.com">wladyslaw.pshenychnyy@gmail.com</a>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 19 C4 20.5 4 16.5 2 16 M16 22 V18.1 C16 17 15.6 16.2 15 15.7 C18.2 15.3 21.5 14.1 21.5 8.5 C21.5 7.1 21 5.9 20.1 5 C20.5 3.9 20.4 2.7 20 2 C20 2 18.8 1.6 16.1 3.4 C13.7 2.8 11.3 2.8 9 3.4 C6.2 1.6 5 2 5 2 C4.6 2.7 4.5 3.9 4.9 5 C4 5.9 3.5 7.1 3.5 8.5 C3.5 14.1 6.8 15.3 10 15.7 C9.5 16.2 9 17 9 18 V22"/></svg>
-            <a href="https://github.com/Batowlad" rel="noopener">github.com/Batowlad</a>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 11 V16 M8 8 V8.01 M12 16 V11 M16 16 V13 C16 11.9 15.1 11 14 11 C13.3 11 12.6 11.4 12 12"/></svg>
-            <a href="#" rel="noopener">linkedin.com/in/your-profile</a>
-          </li>
-        </ul>
-      </article>
-
-      <p class="return"><button class="return-link" type="button">— Return to the Gathering —</button></p>
-    </div>
+  <div class="backdrop" aria-hidden="true">
+    <canvas id="field"></canvas>
   </div>
 
-  <noscript>
-    <style>
-      #scene { display: none; }
-      #overlay { display: block !important; position: static; clip-path: none !important; opacity: 1 !important; }
-      #overlay[hidden] { display: block !important; }
-      .chapter[hidden] { display: block !important; }
-      .overlay-close, .return { display: none !important; }
-      body { overflow: auto !important; }
-    </style>
-  </noscript>
+  <!-- ============ SIDEBAR / NAV ============ -->
+  <aside class="sidebar">
+    <a class="brand" href="#about">
+      <span class="brand__name">Your Name</span>          <!-- EDIT -->
+      <span class="brand__role">ML Engineer</span>        <!-- EDIT -->
+    </a>
 
-  <script src="js/clouds.js"></script>
-  <script src="js/fog.js"></script>
-  <script src="js/main.js"></script>
+    <nav class="layers" aria-label="Sections">
+      <span class="layers__signal" aria-hidden="true"></span>
+      <ol>
+        <li><a href="#about"><span class="node"></span><span class="layers__label">About</span><span class="layers__idx">00</span></a></li>
+        <li><a href="#experience"><span class="node"></span><span class="layers__label">Experience</span><span class="layers__idx">01</span></a></li>
+        <li><a href="#projects"><span class="node"></span><span class="layers__label">Projects</span><span class="layers__idx">02</span></a></li>
+        <li><a href="#awards"><span class="node"></span><span class="layers__label">Awards</span><span class="layers__idx">03</span></a></li>
+        <li><a href="#stack"><span class="node"></span><span class="layers__label">Tech Stack</span><span class="layers__idx">04</span></a></li>
+        <li><a href="#contact"><span class="node"></span><span class="layers__label">Contact</span><span class="layers__idx">05</span></a></li>
+      </ol>
+    </nav>
+
+    <div class="sidebar__foot">
+      <p class="status"><span class="status__dot"></span>Open to Summer 2027 roles</p>  <!-- EDIT -->
+      <p class="sidebar__meta">University Name<br>Computer Science</p>                <!-- EDIT -->
+    </div>
+  </aside>
+
+  <main id="main">
+
+    <!-- ============ 00 · ABOUT (input layer) ============ -->
+    <section id="about" class="hero">
+      <!-- EDIT: data-outputs = the three labels on the network's output neurons -->
+      <canvas class="hero__net" data-outputs="vision,language,systems" aria-hidden="true"></canvas>
+
+      <div class="hero__inner">
+        <p class="eyebrow reveal">Machine Learning Engineer · University Name</p>
+        <h1 class="reveal" style="--d:80ms">Your Name</h1>
+        <p class="hero__tagline reveal" style="--d:160ms">Teaching machines to <em>see</em>, <em>read</em>, and <em>reason</em>.</p>
+        <p class="hero__lede reveal" style="--d:240ms">
+          <span class="prompt" aria-hidden="true">&gt;</span>Currently building <strong>Project Name</strong>, a one-line
+          description of what it does and the stack behind it. For example, a retrieval-augmented agent built
+          with PyTorch, LangGraph and vector search.
+        </p>
+
+        <dl class="stats reveal" style="--d:320ms">
+          <div class="stat"><dt>Currently at</dt><dd>Company Name</dd></div>
+          <div class="stat"><dt>Models shipped</dt><dd data-count="12">12</dd></div>
+          <div class="stat"><dt>Hackathon wins</dt><dd data-count="3">3</dd></div>
+        </dl>
+
+        <div class="cta reveal" style="--d:400ms">
+          <a class="btn" href="resume.pdf">View Resume</a>                     <!-- EDIT: drop resume.pdf next to index.html -->
+          <a class="textlink" href="https://github.com/">GitHub</a>
+          <a class="textlink" href="https://www.linkedin.com/">LinkedIn</a>
+          <a class="textlink" href="https://scholar.google.com/">Scholar</a>
+          <a class="textlink" href="https://x.com/">X</a>
+        </div>
+      </div>
+
+      <a class="scroll-cue" href="#experience"><span class="scroll-cue__line"></span>Forward pass</a>
+    </section>
+
+    <!-- ============ 01 · EXPERIENCE ============ -->
+    <section id="experience" class="section">
+      <div class="section__inner">
+        <header class="section__head reveal">
+          <p class="eyebrow eyebrow--node">Layer 01 · Dense</p>
+          <h2>Experience</h2>
+          <p class="section__lede">Where I've worked, researched, and led.</p>
+        </header>
+
+        <ol class="timeline">
+          <!-- EDIT: one <li class="job"> per role, newest first -->
+          <li class="job reveal">
+            <p class="job__when">Sep 2026 – Present</p>
+            <div class="job__body">
+              <h3>Company Name</h3>
+              <p class="job__role">Machine Learning Engineer Intern</p>
+              <p class="job__about">One sentence on what the company does and who it serves.</p>
+              <ul class="job__points">
+                <li>Built a [model / pipeline] that [does what] using [tools]. Lead with the outcome, e.g. cut inference latency by 40%.</li>
+                <li>Shipped [feature] to [N users / production], moving [metric] from X to Y.</li>
+              </ul>
+              <ul class="tags"><li>PyTorch</li><li>Triton</li><li>Kubernetes</li></ul>
+            </div>
+          </li>
+
+          <li class="job reveal">
+            <p class="job__when">May 2026 – Aug 2026</p>
+            <div class="job__body">
+              <h3>Research Lab Name</h3>
+              <p class="job__role">Undergraduate Researcher</p>
+              <p class="job__about">The lab or group: the professor, the area, and the question it's chasing.</p>
+              <ul class="job__points">
+                <li>Investigated [research question] by training [architecture] on [dataset].</li>
+                <li>Co-authored [paper title], accepted at [venue].</li>
+              </ul>
+              <ul class="tags"><li>JAX</li><li>Flax</li><li>Weights &amp; Biases</li></ul>
+            </div>
+          </li>
+
+          <li class="job reveal">
+            <p class="job__when">Jan 2025 – Apr 2025</p>
+            <div class="job__body">
+              <h3>Startup Name</h3>
+              <p class="job__role">Software Engineer Intern</p>
+              <p class="job__about">One sentence on the product and the stage the company was at.</p>
+              <ul class="job__points">
+                <li>Designed [system] handling [scale, e.g. 2M requests / day].</li>
+                <li>Reduced [cost or time] by [amount] by [the change you made].</li>
+              </ul>
+              <ul class="tags"><li>Python</li><li>FastAPI</li><li>PostgreSQL</li></ul>
+            </div>
+          </li>
+
+          <li class="job reveal">
+            <p class="job__when">Sep 2023 – Jun 2025</p>
+            <div class="job__body">
+              <h3>Club or Team Name</h3>
+              <p class="job__role">Founder &amp; Lead</p>
+              <p class="job__about">A student team, club, or volunteer role. Leadership counts.</p>
+              <ul class="job__points">
+                <li>Led a team of [N] to [outcome, e.g. 1st place at a regional competition].</li>
+                <li>Started [initiative] that [result people can picture].</li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ 02 · PROJECTS ============ -->
+    <section id="projects" class="section">
+      <div class="section__inner">
+        <header class="section__head reveal">
+          <p class="eyebrow eyebrow--node">Layer 02 · Attention</p>
+          <h2>Projects</h2>
+          <p class="section__lede">Models and tools I've built, from research experiments to things people actually use.</p>
+        </header>
+
+        <!-- EDIT: your flagship project -->
+        <article class="feature reveal">
+          <div class="feature__text">
+            <h3>Project Alpha</h3>
+            <p class="project__meta">Live at project-alpha.dev</p>
+            <p class="project__desc">
+              Your flagship project in two to four sentences: the problem and who had it, what you built, the
+              interesting technical decision (architecture, data, training trick), and the measurable result.
+              For example: fine-tuned a 1B-parameter model with LoRA on 40k domain examples, matching a 7B
+              baseline at a fifth of the inference cost.
+            </p>
+            <ul class="tags"><li>PyTorch</li><li>Hugging Face</li><li>LoRA</li><li>FastAPI</li></ul>
+            <p class="project__links">
+              <a class="textlink" href="https://example.com/">project-alpha.dev ↗</a>
+              <a class="textlink" href="https://github.com/">Source ↗</a>
+            </p>
+          </div>
+
+          <!-- EDIT: or delete this figure. It's decorative, not real data. -->
+          <figure class="loss" aria-hidden="true">
+            <figcaption class="loss__head"><span>Training loss</span><span>40 epochs</span></figcaption>
+            <svg viewBox="0 0 240 132" preserveAspectRatio="none">
+              <g class="loss__grid">
+                <line x1="0" y1="34" x2="240" y2="34"/><line x1="0" y1="66" x2="240" y2="66"/><line x1="0" y1="98" x2="240" y2="98"/>
+              </g>
+              <path class="loss__curve loss__curve--val" pathLength="1" d="M0.0 16.6 L6.0 23.3 L12.0 30.8 L18.0 38.2 L24.0 43.3 L30.0 46.4 L36.0 54.3 L42.0 58.6 L48.0 60.3 L54.0 65.3 L60.0 67.6 L66.0 70.9 L72.0 74.2 L78.0 74.4 L84.0 79.5 L90.0 80.9 L96.0 83.5 L102.0 83.8 L108.0 86.6 L114.0 87.8 L120.0 88.0 L126.0 90.5 L132.0 90.9 L138.0 91.0 L144.0 94.2 L150.0 95.1 L156.0 95.5 L162.0 94.8 L168.0 95.8 L174.0 97.4 L180.0 97.7 L186.0 98.5 L192.0 98.3 L198.0 99.7 L204.0 98.6 L210.0 98.5 L216.0 98.8 L222.0 99.5 L228.0 99.4 L234.0 101.4 L240.0 101.1"/>
+              <path class="loss__curve loss__curve--train" pathLength="1" d="M0.0 19.9 L6.0 30.0 L12.0 36.9 L18.0 45.8 L24.0 53.1 L30.0 57.5 L36.0 60.5 L42.0 66.2 L48.0 70.9 L54.0 77.6 L60.0 79.7 L66.0 84.2 L72.0 87.6 L78.0 90.6 L84.0 92.5 L90.0 91.6 L96.0 94.0 L102.0 95.9 L108.0 97.5 L114.0 101.3 L120.0 102.1 L126.0 102.1 L132.0 102.8 L138.0 103.3 L144.0 104.1 L150.0 107.6 L156.0 106.5 L162.0 106.9 L168.0 108.0 L174.0 109.5 L180.0 109.0 L186.0 110.6 L192.0 108.5 L198.0 109.0 L204.0 110.2 L210.0 111.1 L216.0 109.8 L222.0 110.9 L228.0 110.3 L234.0 110.6 L240.0 111.6"/>
+            </svg>
+            <figcaption class="loss__legend">
+              <span><i class="swatch swatch--train"></i>train</span>
+              <span><i class="swatch swatch--val"></i>val</span>
+              <span class="loss__final">0.214</span>
+            </figcaption>
+          </figure>
+        </article>
+
+        <!-- EDIT: smaller projects, any even number looks best -->
+        <div class="cards">
+          <article class="card reveal">
+            <h3>Project Beta</h3>
+            <p class="project__meta">Hackathon Name 2026 · Best Use of AI</p>
+            <p class="project__desc">Built in a weekend. What it does in one or two sentences, and the model or API that powers it.</p>
+            <ul class="tags"><li>Next.js</li><li>OpenCV</li><li>Gemini API</li></ul>
+          </article>
+
+          <article class="card reveal" style="--d:80ms">
+            <h3>Project Gamma</h3>
+            <p class="project__meta">Research · Paper Reproduction</p>
+            <p class="project__desc">Which result you reproduced, what you changed, and what you found that the paper didn't say.</p>
+            <ul class="tags"><li>JAX</li><li>Flax</li><li>W&amp;B</li></ul>
+          </article>
+
+          <article class="card reveal">
+            <h3>Project Delta</h3>
+            <p class="project__meta">Open Source · 1.2k stars</p>
+            <p class="project__desc">A library, tool, or contribution other people use. Say who uses it and how many.</p>
+            <ul class="tags"><li>Python</li><li>CUDA</li><li>C++</li></ul>
+          </article>
+
+          <article class="card reveal" style="--d:80ms">
+            <h3>Project Epsilon</h3>
+            <p class="project__meta">Kaggle · Top 3%</p>
+            <p class="project__desc">A competition entry: the approach, the leaderboard finish, and the trick that moved the needle.</p>
+            <ul class="tags"><li>scikit-learn</li><li>XGBoost</li><li>pandas</li></ul>
+          </article>
+        </div>
+
+        <a class="more" href="https://github.com/">More on GitHub ↗</a>
+      </div>
+    </section>
+
+    <!-- ============ 03 · AWARDS ============ -->
+    <section id="awards" class="section">
+      <div class="section__inner">
+        <header class="section__head reveal">
+          <p class="eyebrow eyebrow--node">Layer 03 · Residual</p>
+          <h2>Awards</h2>
+          <p class="section__lede">Hackathons, competitions, and research recognition.</p>
+        </header>
+
+        <!-- EDIT: name / what you won / when -->
+        <ul class="awards reveal">
+          <li><span class="awards__name">Hackathon Name</span><span class="awards__what">Best Use of AI · 1st Place</span><span class="awards__year">2026</span></li>
+          <li><span class="awards__name">Conference or Workshop</span><span class="awards__what">Paper Accepted</span><span class="awards__year">2026</span></li>
+          <li><span class="awards__name">Kaggle Competition Name</span><span class="awards__what">Silver Medal · Top 3%</span><span class="awards__year">2025</span></li>
+          <li><span class="awards__name">Scholarship Name</span><span class="awards__what">Recipient</span><span class="awards__year">2025</span></li>
+          <li><span class="awards__name">Programming Contest</span><span class="awards__what">Distinction</span><span class="awards__year">2025, 2024</span></li>
+          <li><span class="awards__name">Olympiad or Contest Name</span><span class="awards__what">National Finalist</span><span class="awards__year">2024</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ 04 · TECH STACK ============ -->
+    <section id="stack" class="section">
+      <div class="section__inner">
+        <header class="section__head reveal">
+          <p class="eyebrow eyebrow--node">Layer 04 · Embedding</p>
+          <h2>Tech Stack</h2>
+          <p class="section__lede">Languages, frameworks, and infrastructure I train and ship with.</p>
+        </header>
+
+        <!-- EDIT: icons are Simple Icons slugs. Browse them at https://simpleicons.org -->
+        <ul class="stack reveal">
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/python.svg)"><i></i>Python</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/cplusplus.svg)"><i></i>C++</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/typescript.svg)"><i></i>TypeScript</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/pytorch.svg)"><i></i>PyTorch</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/tensorflow.svg)"><i></i>TensorFlow</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/scikitlearn.svg)"><i></i>scikit-learn</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/numpy.svg)"><i></i>NumPy</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/pandas.svg)"><i></i>pandas</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/huggingface.svg)"><i></i>Hugging Face</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/langchain.svg)"><i></i>LangChain</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/opencv.svg)"><i></i>OpenCV</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/nvidia.svg)"><i></i>CUDA</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/jupyter.svg)"><i></i>Jupyter</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/weightsandbiases.svg)"><i></i>W&amp;B</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/docker.svg)"><i></i>Docker</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/kubernetes.svg)"><i></i>Kubernetes</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/googlecloud.svg)"><i></i>Google Cloud</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/fastapi.svg)"><i></i>FastAPI</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/postgresql.svg)"><i></i>PostgreSQL</li>
+          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/git.svg)"><i></i>Git</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ 05 · CONTACT (output layer) ============ -->
+    <section id="contact" class="section section--contact">
+      <div class="section__inner">
+        <header class="section__head reveal">
+          <p class="eyebrow eyebrow--node">Layer 05 · Softmax</p>
+          <h2>Contact</h2>
+        </header>
+
+        <p class="contact__pitch reveal">
+          Looking for <em>Summer 2027</em> ML and research internships. If you're training something
+          interesting, I'd love to hear from you.
+        </p>
+
+        <div class="contact__email reveal">
+          <a href="mailto:you@example.com">you@example.com</a>                <!-- EDIT -->
+          <button class="copy" type="button" data-copy="you@example.com">Copy</button>
+        </div>
+
+        <ul class="contact__links reveal">
+          <li><a class="textlink" href="https://www.linkedin.com/">LinkedIn ↗</a></li>
+          <li><a class="textlink" href="https://github.com/">GitHub ↗</a></li>
+          <li><a class="textlink" href="https://scholar.google.com/">Google Scholar ↗</a></li>
+          <li><a class="textlink" href="https://x.com/">X ↗</a></li>
+          <li><a class="textlink" href="resume.pdf">Resume ↗</a></li>
+        </ul>
+      </div>
+
+      <footer class="footer">
+        <span>© <span data-year>2026</span> Your Name</span>
+        <span>Updated October 2026</span>
+      </footer>
+    </section>
+  </main>
+
+  <script src="js/neural.js" defer></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>

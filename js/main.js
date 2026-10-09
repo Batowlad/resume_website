@@ -1,155 +1,91 @@
-/* ═══════════════════════════════════════════════════════
-   THE GATHERING — seat interactions & chapter overlay
-   ═══════════════════════════════════════════════════════ */
-
 (() => {
-  const overlay = document.getElementById("overlay");
-  const scroller = overlay.querySelector(".overlay-scroll");
-  const closeBtn = overlay.querySelector(".overlay-close");
-  const returnBtn = overlay.querySelector(".return-link");
-  const hint = document.getElementById("hint");
-  const seats = Array.from(document.querySelectorAll(".seat[data-chapter]"));
-  const chapters = Array.from(overlay.querySelectorAll(".chapter"));
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-  let openSeat = null; // the seat that opened the current chapter (focus restore)
-  let closing = false;
-
-  function chapterOf(id) {
-    return chapters.find((c) => c.dataset.chapter === id) || null;
+  /* Reveal sections as they scroll in */
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        e.target.classList.add('is-visible');
+        io.unobserve(e.target);
+      }
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.1 });
+    reveals.forEach((el) => io.observe(el));
+  } else {
+    reveals.forEach((el) => el.classList.add('is-visible'));
   }
 
-  /* ── Open a chapter, bursting out from (x, y) in viewport px ── */
-  function openChapter(id, x, y, focusOrigin) {
-    const chapter = chapterOf(id);
-    if (!chapter || closing) return;
+  /* Scroll spy: light the nav neuron for the current section, and run the
+     signal down the axon to it */
+  const links = [...document.querySelectorAll('.layers a')];
+  const sections = links.map((a) => document.querySelector(a.hash));
+  const signal = document.querySelector('.layers__signal');
+  const row = document.querySelector('.layers ol');
+  let current = -1;
 
-    chapters.forEach((c) => (c.hidden = c !== chapter));
+  function setActive(i) {
+    if (i === current) return;
+    current = i;
+    links.forEach((a, k) => {
+      a.classList.toggle('is-active', k === i);
+      a.classList.toggle('is-past', k < i);
+      if (k === i) a.setAttribute('aria-current', 'location');
+      else a.removeAttribute('aria-current');
+    });
+    signal.style.height = `${links[i].offsetTop - links[0].offsetTop}px`;
 
-    overlay.style.setProperty("--bx", `${x}px`);
-    overlay.style.setProperty("--by", `${y}px`);
-
-    const title = chapter.querySelector(".chapter-title");
-    overlay.setAttribute("aria-label", focusOrigin?.getAttribute("aria-label") || title.textContent);
-
-    overlay.hidden = false;
-    // force reflow so the clip-path transition runs from 0
-    void overlay.offsetWidth;
-    overlay.classList.add("is-open");
-
-    scroller.scrollTop = 0;
-    openSeat = focusOrigin || null;
-    FogEngine.pause();
-    if (typeof CloudEngine !== "undefined") CloudEngine.pause();
-
-    history.replaceState(null, "", `#${id}`);
-    hint?.classList.add("is-dismissed");
-
-    // move focus once the burst has mostly bloomed
-    setTimeout(() => title?.focus({ preventScroll: true }), reduceMotion.matches ? 50 : 380);
-  }
-
-  function closeChapter() {
-    if (overlay.hidden || closing) return;
-    closing = true;
-    overlay.classList.add("is-closing");
-    overlay.classList.remove("is-open");
-
-    const finish = () => {
-      overlay.classList.remove("is-closing");
-      overlay.hidden = true;
-      closing = false;
-      FogEngine.resume();
-      if (typeof CloudEngine !== "undefined") CloudEngine.resume();
-      history.replaceState(null, "", window.location.pathname + window.location.search);
-      openSeat?.focus({ preventScroll: true });
-      openSeat = null;
-    };
-
-    if (reduceMotion.matches) {
-      setTimeout(finish, 180);
-    } else {
-      let done = false;
-      overlay.addEventListener("transitionend", () => { if (!done) { done = true; finish(); } }, { once: true });
-      setTimeout(() => { if (!done) { done = true; finish(); } }, 450); // safety net
+    // on narrow screens the nav is a scrolling row: keep the active item in view
+    if (row.scrollWidth > row.clientWidth) {
+      row.scrollTo({ left: links[i].offsetLeft - 20, behavior: reduceMotion ? 'auto' : 'smooth' });
     }
   }
 
-  /* ── Wire the seats ── */
-  seats.forEach((seat) => {
-    seat.addEventListener("click", () => {
-      const star = seat.querySelector(".star .core");
-      const rect = (star || seat).getBoundingClientRect();
-      openChapter(
-        seat.dataset.chapter,
-        rect.left + rect.width / 2,
-        rect.top + rect.height / 2,
-        seat
-      );
+  function spy() {
+    const line = innerHeight * 0.4;
+    let i = 0;
+    sections.forEach((s, k) => { if (s.getBoundingClientRect().top <= line) i = k; });
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) i = sections.length - 1;
+    setActive(i);
+  }
+
+  let ticking = false;
+  addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { spy(); ticking = false; });
+  }, { passive: true });
+  addEventListener('resize', () => { current = -1; spy(); });
+  spy();
+
+  /* Count up the hero numbers */
+  document.querySelectorAll('[data-count]').forEach((el) => {
+    const end = Number(el.dataset.count);
+    if (reduceMotion || !end) return;
+    const start = performance.now() + 500;
+    const dur = 1400;
+    el.textContent = '0';
+    const tick = (now) => {
+      const k = Math.min(1, Math.max(0, (now - start) / dur));
+      el.textContent = String(Math.round(end * (1 - Math.pow(1 - k, 3))));
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+
+  /* Copy email */
+  document.querySelectorAll('[data-copy]').forEach((btn) => {
+    const label = btn.textContent;
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy);
+        btn.textContent = 'Copied';
+      } catch {
+        btn.textContent = 'Select & copy';
+      }
+      setTimeout(() => { btn.textContent = label; }, 1600);
     });
   });
 
-  closeBtn.addEventListener("click", closeChapter);
-  returnBtn.addEventListener("click", closeChapter);
-
-  /* ── Keyboard: Esc closes, Tab stays inside the overlay ── */
-  document.addEventListener("keydown", (e) => {
-    if (overlay.hidden) return;
-
-    if (e.key === "Escape") {
-      e.preventDefault();
-      closeChapter();
-      return;
-    }
-
-    if (e.key === "Tab") {
-      const focusables = Array.from(
-        overlay.querySelectorAll('button, a[href], [tabindex="-1"].chapter-title')
-      ).filter((el) => el.offsetParent !== null || el === closeBtn);
-      if (focusables.length === 0) return;
-      const first = focusables[0];
-      const lastEl = focusables[focusables.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        lastEl.focus();
-      } else if (!e.shiftKey && document.activeElement === lastEl) {
-        e.preventDefault();
-        first.focus();
-      }
-    }
-  });
-
-  /* ── Deep links: #projects opens The Magician's chapter, etc. ── */
-  function openFromHash() {
-    const id = window.location.hash.slice(1);
-    if (!id) return;
-    const seat = seats.find((s) => s.dataset.chapter === id);
-    if (!seat) return;
-    const star = seat.querySelector(".star .core");
-    const rect = (star || seat).getBoundingClientRect();
-    openChapter(id, rect.left + rect.width / 2, rect.top + rect.height / 2, seat);
-  }
-
-  window.addEventListener("hashchange", () => {
-    if (overlay.hidden) openFromHash();
-  });
-
-  openFromHash();
-
-  /* ── film grain tile ── */
-  const grain = document.querySelector(".grain");
-  if (grain) {
-    const g = document.createElement("canvas");
-    g.width = g.height = 128;
-    const gtx = g.getContext("2d");
-    const img = gtx.createImageData(128, 128);
-    for (let i = 0; i < img.data.length; i += 4) {
-      const v = 110 + Math.random() * 90;
-      img.data[i] = img.data[i + 1] = img.data[i + 2] = v;
-      img.data[i + 3] = 26;
-    }
-    gtx.putImageData(img, 0, 0);
-    grain.style.backgroundImage = `url(${g.toDataURL()})`;
-  }
+  document.querySelectorAll('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
 })();
