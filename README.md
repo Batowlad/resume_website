@@ -1,42 +1,67 @@
-# Portfolio: neural network theme
+# Portfolio: a page that trains itself
 
-A single-page portfolio laid out as a network. The sidebar nav is a layer of neurons, and
-a signal runs down it to the section you're reading. The hero shows a small feed-forward
-net that loops a forward pass ending in a softmax. Each section is labelled as a layer
-(Dense, Attention, Residual, Embedding, Softmax), and a field of drifting nodes sits behind
-the page and links up to your cursor.
+The name at the top isn't text. When the page loads, a small neural network starts from
+random weights and learns to draw the name **in the visitor's browser**. It goes from
+static, to blurry blobs, to sharp letters in about 15 seconds.
 
-No build step and no dependencies: one HTML file, one stylesheet, two scripts.
+- **Fig. 1, the name field.** An MLP maps `(x, y) → 64 Fourier features → 48 → 48 → 1`
+  (5,521 parameters). It's trained with Adam on a rasterised copy of the `<h1>`, inside a
+  Web Worker, and its predictions are drawn as a dot matrix. Hover (or drag on touch) to
+  probe any pixel. **↻ Retrain** starts again from new random weights.
+- **Fig. 1b, the probe.** A live forward pass for the probed pixel through the real
+  weights: Fourier features, both hidden layers and the sigmoid. It shows the 8 neurons per
+  layer that matter most to the output.
+- **Sidebar telemetry.** Step, loss and a log-scale loss curve for that same run.
+- **Experience** is read as an RNN unrolled through time (h₁ … h₄).
+- **Projects** each carry a 24-d feature-hashed embedding of their name and tags.
+  Projects that share tools share bright cells.
+- **Awards** is a paper-style results table.
+- **Tech stack (Fig. 2)** is a 2-D embedding map. Points start collapsed and settle into
+  place. Hover or tap one to see its nearest neighbours.
+
+No build step and no dependencies.
 
 ```
-index.html      all content, marked with EDIT comments
-css/style.css   tokens at the top (colours, fonts, widths)
-js/neural.js    the background field + hero network canvases
-js/main.js      scroll reveal, nav scroll spy, count-up, copy email
+index.html         all content, marked with EDIT comments
+css/style.css      tokens at the top (colours, fonts, widths)
+js/namefield.js    Fig. 1 + 1b: the worker, trainer, dot matrix, probe, telemetry
+js/embedding.js    Fig. 2 map + project embedding barcodes
+js/backdrop.js     the drifting node field behind the page
+js/main.js         scroll reveal, nav scroll spy, count-up, copy email
 ```
 
 ## Filling in the placeholders
 
 Everything is in `index.html`. Search for `EDIT`.
 
-- **Name / title.** Change `<title>`, `.brand__name`, `.brand__role`, the hero `h1` and the footer.
-- **Hero stats.** For numbers, `data-count` sets the count-up target. Keep the text inside
-  the tag the same, so the number still shows without JS.
-- **Network output labels.** The `data-outputs` attribute on `.hero__net` (three comma-separated words).
+- **Your name.** Change the `<h1>`: that text *is* the training data, and the network
+  learns whatever you put there. Names longer than about 15 characters wrap onto two lines.
+  Also update `<title>`, `.brand__name` and the footer.
+- **Hero stats.** For numbers, `data-count` sets the count-up target.
 - **Resume.** Put `resume.pdf` next to `index.html`.
-- **Experience.** One `<li class="job">` per role, newest first.
+- **Experience.** One `<li class="job">` per role, newest first. Number the `h<sub>`
+  labels down to 1.
 - **Projects.** `.feature` is the flagship. The loss-curve figure is decorative, so delete
-  it if you want. `.cards` holds the smaller projects; an even count fills the grid best.
-- **Awards.** One `<li>` per row: name, what you won, year.
-- **Tech stack.** Each tile's icon is a [Simple Icons](https://simpleicons.org) slug in the
-  `--icon` URL. Swap the slug and the label.
-- **Contact.** The email appears twice: in the `mailto:` link and in `data-copy` on the copy button.
+  it if you want. Barcodes are generated from each card's title and tags automatically.
+- **Awards.** One `<tr>` per result. Wrap your favourite in `<strong>`.
+- **Tech stack.** Each `<li>` has `data-x` (0–100), `data-y` (0–60) and `data-c` (its
+  cluster). Cluster names are in `data-clusters` on `.embed__map`. Icons are
+  [Simple Icons](https://simpleicons.org) slugs in the `--icon` URL.
+- **Contact.** The email appears twice: in the `mailto:` link and in `data-copy`.
 
-## Colours
+## Tuning the network
 
-Edit the tokens at the top of `css/style.css`. `--signal-rgb` is the activation colour
-(links, lit neurons, pulses) and `--amber-rgb` is used for labels. If you change these,
-also update `SIGNAL` and `AMBER` at the top of `js/neural.js` so the canvases match.
+`CFG` at the top of `js/namefield.js`:
+
+| key     | default | what it does                                                     |
+| ------- | ------- | ---------------------------------------------------------------- |
+| `M`     | 32      | Fourier frequencies (features = 2 × M)                           |
+| `H`     | 48      | width of both hidden layers                                      |
+| `SIGMA` | 6       | frequency scale: higher gives sharper edges and more speckle     |
+| `LR`    | 4e-3    | Adam learning rate                                               |
+| `MAX`   | 2000    | steps before it stops and reports "converged"                    |
+
+The pacing curve (`12s + 9s²` steps after `s` seconds) is in the worker's `tick()`.
 
 ## Running it
 
@@ -48,7 +73,9 @@ You can deploy it to any static host, such as GitHub Pages, Netlify or Vercel.
 
 ## Behaviour
 
-- **Under 960px** the sidebar becomes a sticky top bar with a scrolling row of nodes.
-- With **`prefers-reduced-motion`** the canvases draw a single still frame and the reveals/transitions are off.
-- **Without JS** all content renders normally; only the canvases are missing.
-- The hero network pauses while it's off screen.
+- Training **pauses in background tabs**, so the name emerges when someone is looking.
+- **Under 960px** the sidebar becomes a sticky top bar. On phones the embedding map turns portrait.
+- With **`prefers-reduced-motion`** the network trains without the animation and the
+  finished result appears once. The reveals and transitions are off too.
+- **Without JS** (or without Web Workers) the `<h1>` shows as normal text and the stack is
+  a plain list.

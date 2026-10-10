@@ -41,6 +41,12 @@
     </nav>
 
     <div class="sidebar__foot">
+      <!-- live readout of the network training in the hero -->
+      <div class="telemetry">
+        <p class="telemetry__head"><span class="telemetry__dot"></span>name_field · <span data-state>training</span></p>
+        <canvas class="telemetry__spark" aria-hidden="true"></canvas>
+        <p class="telemetry__nums"><span>step <b data-step>0</b></span><span>loss <b data-loss>–</b></span></p>
+      </div>
       <p class="status"><span class="status__dot"></span>Open to Summer 2027 roles</p>  <!-- EDIT -->
       <p class="sidebar__meta">University Name<br>Computer Science</p>                <!-- EDIT -->
     </div>
@@ -48,52 +54,75 @@
 
   <main id="main">
 
-    <!-- ============ 00 · ABOUT (input layer) ============ -->
+    <!-- ============ 00 · ABOUT ============ -->
     <section id="about" class="hero">
-      <!-- EDIT: data-outputs = the three labels on the network's output neurons -->
-      <canvas class="hero__net" data-outputs="vision,language,systems" aria-hidden="true"></canvas>
-
       <div class="hero__inner">
         <p class="eyebrow reveal">Machine Learning Engineer · University Name</p>
-        <h1 class="reveal" style="--d:80ms">Your Name</h1>
-        <p class="hero__tagline reveal" style="--d:160ms">Teaching machines to <em>see</em>, <em>read</em>, and <em>reason</em>.</p>
-        <p class="hero__lede reveal" style="--d:240ms">
-          <span class="prompt" aria-hidden="true">&gt;</span>Currently building <strong>Project Name</strong>, a one-line
-          description of what it does and the stack behind it. For example, a retrieval-augmented agent built
-          with PyTorch, LangGraph and vector search.
-        </p>
 
-        <dl class="stats reveal" style="--d:320ms">
-          <div class="stat"><dt>Currently at</dt><dd>Company Name</dd></div>
-          <div class="stat"><dt>Models shipped</dt><dd data-count="12">12</dd></div>
-          <div class="stat"><dt>Hackathon wins</dt><dd data-count="3">3</dd></div>
-        </dl>
+        <!-- EDIT: the <h1> is the training data. Change it and the network learns the new name. -->
+        <figure class="namefield reveal" style="--d:80ms">
+          <div class="namefield__stage">
+            <h1>Your Name</h1>
+            <canvas class="namefield__canvas" aria-hidden="true"></canvas>
+          </div>
+          <figcaption class="namefield__hud">
+            <span class="hud__caption"><b>Fig. 1</b> My name, learned from scratch by a <span data-params>5,521</span>-parameter network while this page loaded. Hover or drag to probe it.</span>
+            <span class="hud__stats">
+              <span>step <b data-step>0</b></span>
+              <span>loss <b data-loss>–</b></span>
+              <button class="btn-ghost" type="button" data-retrain>↻ Retrain</button>
+            </span>
+          </figcaption>
+        </figure>
 
-        <div class="cta reveal" style="--d:400ms">
-          <a class="btn" href="resume.pdf">View Resume</a>                     <!-- EDIT: drop resume.pdf next to index.html -->
-          <a class="textlink" href="https://github.com/">GitHub</a>
-          <a class="textlink" href="https://www.linkedin.com/">LinkedIn</a>
-          <a class="textlink" href="https://scholar.google.com/">Scholar</a>
-          <a class="textlink" href="https://x.com/">X</a>
+        <div class="hero__body">
+          <div class="hero__copy">
+            <p class="hero__tagline reveal" style="--d:160ms">Teaching machines to <em>see</em>, <em>read</em>, and <em>reason</em>.</p>
+            <p class="hero__lede reveal" style="--d:220ms">
+              <span class="prompt" aria-hidden="true">&gt;</span>Currently building <strong>Project Name</strong>, a one-line
+              description of what it does and the stack behind it. For example, a retrieval-augmented agent built
+              with PyTorch, LangGraph and vector search.
+            </p>
+
+            <dl class="stats reveal" style="--d:280ms">
+              <div class="stat"><dt>Currently at</dt><dd>Company Name</dd></div>
+              <div class="stat"><dt>Models shipped</dt><dd data-count="12">12</dd></div>
+              <div class="stat"><dt>Hackathon wins</dt><dd data-count="3">3</dd></div>
+            </dl>
+
+            <div class="cta reveal" style="--d:340ms">
+              <a class="btn" href="resume.pdf">View Resume</a>                     <!-- EDIT: drop resume.pdf next to index.html -->
+              <a class="textlink" href="https://github.com/">GitHub</a>
+              <a class="textlink" href="https://www.linkedin.com/">LinkedIn</a>
+              <a class="textlink" href="https://scholar.google.com/">Scholar</a>
+              <a class="textlink" href="https://x.com/">X</a>
+            </div>
+          </div>
+
+          <figure class="probe">
+            <canvas class="probe__canvas" aria-hidden="true"></canvas>
+            <figcaption class="figcap"><b>Fig. 1b</b> The forward pass at the probe: Fourier features γ, two ReLU layers, one sigmoid. Eight neurons per layer, picked by weight.</figcaption>
+          </figure>
         </div>
       </div>
-
-      <a class="scroll-cue" href="#experience"><span class="scroll-cue__line"></span>Forward pass</a>
     </section>
 
     <!-- ============ 01 · EXPERIENCE ============ -->
     <section id="experience" class="section">
       <div class="section__inner">
         <header class="section__head reveal">
-          <p class="eyebrow eyebrow--node">Layer 01 · Dense</p>
+          <p class="eyebrow eyebrow--node">Layer 01 · Recurrent</p>
           <h2>Experience</h2>
-          <p class="section__lede">Where I've worked, researched, and led.</p>
+          <p class="section__lede">
+            Where I've worked, researched, and led. Read it as a recurrent net unrolled through time:
+            each role updates the hidden state. <code class="formula">h<sub>t</sub> = f(h<sub>t−1</sub>, x<sub>t</sub>)</code>
+          </p>
         </header>
 
         <ol class="timeline">
-          <!-- EDIT: one <li class="job"> per role, newest first -->
+          <!-- EDIT: one <li class="job"> per role, newest first. Number the h<sub> down to 1. -->
           <li class="job reveal">
-            <p class="job__when">Sep 2026 – Present</p>
+            <p class="job__when">Sep 2026 – Present<span class="job__h">h<sub>4</sub></span></p>
             <div class="job__body">
               <h3>Company Name</h3>
               <p class="job__role">Machine Learning Engineer Intern</p>
@@ -107,7 +136,7 @@
           </li>
 
           <li class="job reveal">
-            <p class="job__when">May 2026 – Aug 2026</p>
+            <p class="job__when">May 2026 – Aug 2026<span class="job__h">h<sub>3</sub></span></p>
             <div class="job__body">
               <h3>Research Lab Name</h3>
               <p class="job__role">Undergraduate Researcher</p>
@@ -121,7 +150,7 @@
           </li>
 
           <li class="job reveal">
-            <p class="job__when">Jan 2025 – Apr 2025</p>
+            <p class="job__when">Jan 2025 – Apr 2025<span class="job__h">h<sub>2</sub></span></p>
             <div class="job__body">
               <h3>Startup Name</h3>
               <p class="job__role">Software Engineer Intern</p>
@@ -135,7 +164,7 @@
           </li>
 
           <li class="job reveal">
-            <p class="job__when">Sep 2023 – Jun 2025</p>
+            <p class="job__when">Sep 2023 – Jun 2025<span class="job__h">h<sub>1</sub></span></p>
             <div class="job__body">
               <h3>Club or Team Name</h3>
               <p class="job__role">Founder &amp; Lead</p>
@@ -156,7 +185,10 @@
         <header class="section__head reveal">
           <p class="eyebrow eyebrow--node">Layer 02 · Attention</p>
           <h2>Projects</h2>
-          <p class="section__lede">Models and tools I've built, from research experiments to things people actually use.</p>
+          <p class="section__lede">
+            Models and tools I've built, from research experiments to things people actually use. Each one carries
+            its embedding: a 24-d feature-hashed vector of its name and stack.
+          </p>
         </header>
 
         <!-- EDIT: your flagship project -->
@@ -171,6 +203,7 @@
               baseline at a fifth of the inference cost.
             </p>
             <ul class="tags"><li>PyTorch</li><li>Hugging Face</li><li>LoRA</li><li>FastAPI</li></ul>
+            <p class="emb" aria-hidden="true"><span class="emb__label">emb</span><span class="emb__cells" data-emb></span></p>
             <p class="project__links">
               <a class="textlink" href="https://example.com/">project-alpha.dev ↗</a>
               <a class="textlink" href="https://github.com/">Source ↗</a>
@@ -202,6 +235,7 @@
             <p class="project__meta">Hackathon Name 2026 · Best Use of AI</p>
             <p class="project__desc">Built in a weekend. What it does in one or two sentences, and the model or API that powers it.</p>
             <ul class="tags"><li>Next.js</li><li>OpenCV</li><li>Gemini API</li></ul>
+            <p class="emb" aria-hidden="true"><span class="emb__label">emb</span><span class="emb__cells" data-emb></span></p>
           </article>
 
           <article class="card reveal" style="--d:80ms">
@@ -209,6 +243,7 @@
             <p class="project__meta">Research · Paper Reproduction</p>
             <p class="project__desc">Which result you reproduced, what you changed, and what you found that the paper didn't say.</p>
             <ul class="tags"><li>JAX</li><li>Flax</li><li>W&amp;B</li></ul>
+            <p class="emb" aria-hidden="true"><span class="emb__label">emb</span><span class="emb__cells" data-emb></span></p>
           </article>
 
           <article class="card reveal">
@@ -216,6 +251,7 @@
             <p class="project__meta">Open Source · 1.2k stars</p>
             <p class="project__desc">A library, tool, or contribution other people use. Say who uses it and how many.</p>
             <ul class="tags"><li>Python</li><li>CUDA</li><li>C++</li></ul>
+            <p class="emb" aria-hidden="true"><span class="emb__label">emb</span><span class="emb__cells" data-emb></span></p>
           </article>
 
           <article class="card reveal" style="--d:80ms">
@@ -223,6 +259,7 @@
             <p class="project__meta">Kaggle · Top 3%</p>
             <p class="project__desc">A competition entry: the approach, the leaderboard finish, and the trick that moved the needle.</p>
             <ul class="tags"><li>scikit-learn</li><li>XGBoost</li><li>pandas</li></ul>
+            <p class="emb" aria-hidden="true"><span class="emb__label">emb</span><span class="emb__cells" data-emb></span></p>
           </article>
         </div>
 
@@ -239,15 +276,23 @@
           <p class="section__lede">Hackathons, competitions, and research recognition.</p>
         </header>
 
-        <!-- EDIT: name / what you won / when -->
-        <ul class="awards reveal">
-          <li><span class="awards__name">Hackathon Name</span><span class="awards__what">Best Use of AI · 1st Place</span><span class="awards__year">2026</span></li>
-          <li><span class="awards__name">Conference or Workshop</span><span class="awards__what">Paper Accepted</span><span class="awards__year">2026</span></li>
-          <li><span class="awards__name">Kaggle Competition Name</span><span class="awards__what">Silver Medal · Top 3%</span><span class="awards__year">2025</span></li>
-          <li><span class="awards__name">Scholarship Name</span><span class="awards__what">Recipient</span><span class="awards__year">2025</span></li>
-          <li><span class="awards__name">Programming Contest</span><span class="awards__what">Distinction</span><span class="awards__year">2025, 2024</span></li>
-          <li><span class="awards__name">Olympiad or Contest Name</span><span class="awards__what">National Finalist</span><span class="awards__year">2024</span></li>
-        </ul>
+        <!-- EDIT: one <tr> per result -->
+        <figure class="results reveal">
+          <figcaption class="figcap"><b>Table 1</b> Selected results, newest first. <span class="results__key">Bold</span>: the one I'm proudest of.</figcaption>
+          <table class="awards">
+            <thead>
+              <tr><th scope="col">Event</th><th scope="col">Result</th><th scope="col">Year</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Hackathon Name</td><td><strong>Best Use of AI · 1st Place</strong></td><td>2026</td></tr>
+              <tr><td>Conference or Workshop</td><td>Paper Accepted</td><td>2026</td></tr>
+              <tr><td>Kaggle Competition Name</td><td>Silver Medal · Top 3%</td><td>2025</td></tr>
+              <tr><td>Scholarship Name</td><td>Recipient</td><td>2025</td></tr>
+              <tr><td>Programming Contest</td><td>Distinction</td><td>2025, 2024</td></tr>
+              <tr><td>Olympiad or Contest Name</td><td>National Finalist</td><td>2024</td></tr>
+            </tbody>
+          </table>
+        </figure>
       </div>
     </section>
 
@@ -260,33 +305,39 @@
           <p class="section__lede">Languages, frameworks, and infrastructure I train and ship with.</p>
         </header>
 
-        <!-- EDIT: icons are Simple Icons slugs. Browse them at https://simpleicons.org -->
-        <ul class="stack reveal">
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/python.svg)"><i></i>Python</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/cplusplus.svg)"><i></i>C++</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/typescript.svg)"><i></i>TypeScript</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/pytorch.svg)"><i></i>PyTorch</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/tensorflow.svg)"><i></i>TensorFlow</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/scikitlearn.svg)"><i></i>scikit-learn</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/numpy.svg)"><i></i>NumPy</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/pandas.svg)"><i></i>pandas</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/huggingface.svg)"><i></i>Hugging Face</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/langchain.svg)"><i></i>LangChain</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/opencv.svg)"><i></i>OpenCV</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/nvidia.svg)"><i></i>CUDA</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/jupyter.svg)"><i></i>Jupyter</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/weightsandbiases.svg)"><i></i>W&amp;B</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/docker.svg)"><i></i>Docker</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/kubernetes.svg)"><i></i>Kubernetes</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/googlecloud.svg)"><i></i>Google Cloud</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/fastapi.svg)"><i></i>FastAPI</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/postgresql.svg)"><i></i>PostgreSQL</li>
-          <li style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/git.svg)"><i></i>Git</li>
-        </ul>
+        <!-- EDIT: data-x (0–100) and data-y (0–60) place each tool on the map; data-c picks its cluster.
+             Cluster names live in data-clusters. Icons are Simple Icons slugs: https://simpleicons.org -->
+        <figure class="embed reveal">
+          <div class="embed__map" data-clusters="model:Modeling,sys:Systems,data:Data,ops:MLOps &amp; infra,app:Apps">
+            <ul class="embed__pts">
+              <li tabindex="0" data-x="46" data-y="30" data-c="core" class="is-hub"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/python.svg)"></i>Python</li>
+              <li tabindex="0" data-x="22" data-y="12" data-c="model"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/pytorch.svg)"></i>PyTorch</li>
+              <li tabindex="0" data-x="7" data-y="20" data-c="model"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/tensorflow.svg)"></i>TensorFlow</li>
+              <li tabindex="0" data-x="27" data-y="22" data-c="model"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/huggingface.svg)"></i>Hugging Face</li>
+              <li tabindex="0" data-x="9" data-y="31" data-c="model"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/scikitlearn.svg)"></i>scikit-learn</li>
+              <li tabindex="0" data-x="23" data-y="32" data-c="model"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/opencv.svg)"></i>OpenCV</li>
+              <li tabindex="0" data-x="14" data-y="45" data-c="sys"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/nvidia.svg)"></i>CUDA</li>
+              <li tabindex="0" data-x="5" data-y="53" data-c="sys"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/cplusplus.svg)"></i>C++</li>
+              <li tabindex="0" data-x="33" data-y="44" data-c="data"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/numpy.svg)"></i>NumPy</li>
+              <li tabindex="0" data-x="40" data-y="53" data-c="data"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/pandas.svg)"></i>pandas</li>
+              <li tabindex="0" data-x="52" data-y="44" data-c="data"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/jupyter.svg)"></i>Jupyter</li>
+              <li tabindex="0" data-x="56" data-y="55" data-c="data"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/postgresql.svg)"></i>PostgreSQL</li>
+              <li tabindex="0" data-x="63" data-y="31" data-c="ops"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/weightsandbiases.svg)"></i>W&amp;B</li>
+              <li tabindex="0" data-x="76" data-y="38" data-c="ops"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/docker.svg)"></i>Docker</li>
+              <li tabindex="0" data-x="86" data-y="29" data-c="ops"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/kubernetes.svg)"></i>Kubernetes</li>
+              <li tabindex="0" data-x="80" data-y="49" data-c="ops"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/googlecloud.svg)"></i>Google Cloud</li>
+              <li tabindex="0" data-x="69" data-y="55" data-c="ops"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/git.svg)"></i>Git</li>
+              <li tabindex="0" data-x="47" data-y="13" data-c="app"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/langchain.svg)"></i>LangChain</li>
+              <li tabindex="0" data-x="62" data-y="18" data-c="app"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/fastapi.svg)"></i>FastAPI</li>
+              <li tabindex="0" data-x="76" data-y="11" data-c="app"><i style="--icon:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/typescript.svg)"></i>TypeScript</li>
+            </ul>
+          </div>
+          <figcaption class="figcap"><b>Fig. 2</b> My stack as a 2-D embedding: tools I use together sit together. Hover or tap one to see its nearest neighbours.</figcaption>
+        </figure>
       </div>
     </section>
 
-    <!-- ============ 05 · CONTACT (output layer) ============ -->
+    <!-- ============ 05 · CONTACT ============ -->
     <section id="contact" class="section section--contact">
       <div class="section__inner">
         <header class="section__head reveal">
@@ -303,6 +354,7 @@
           <a href="mailto:you@example.com">you@example.com</a>                <!-- EDIT -->
           <button class="copy" type="button" data-copy="you@example.com">Copy</button>
         </div>
+        <p class="contact__note reveal">p(reply | you write) ≈ 0.99 · usually within two days</p>
 
         <ul class="contact__links reveal">
           <li><a class="textlink" href="https://www.linkedin.com/">LinkedIn ↗</a></li>
@@ -315,12 +367,14 @@
 
       <footer class="footer">
         <span>© <span data-year>2026</span> Your Name</span>
-        <span>Updated October 2026</span>
+        <span>No pretrained weights were used in the making of this page</span>
       </footer>
     </section>
   </main>
 
-  <script src="js/neural.js" defer></script>
+  <script src="js/backdrop.js" defer></script>
+  <script src="js/namefield.js" defer></script>
+  <script src="js/embedding.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>
