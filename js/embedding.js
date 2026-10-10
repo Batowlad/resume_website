@@ -4,16 +4,18 @@
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------------------------------------------------------- Fig. 2 map
-     Each <li> has data-x (0–100) and data-y (0–60). JS lays them out, draws
-     nearest-neighbour links, and animates them in from a random start the way
-     an embedding settles during training. On portrait screens the map is
-     transposed so it stays readable. */
+     Each <li> has data-x (0–100) and data-y (0–60). Where there's room, JS lays
+     them out as a map, draws nearest-neighbour links, and animates them in from a
+     random start the way an embedding settles during training. On narrow screens
+     the same list shows as chips grouped by cluster instead. */
 
   const map = document.querySelector('.embed__map');
   if (map) {
     const NS = 'http://www.w3.org/2000/svg';
-    const SPAN_X = 100, SPAN_Y = 60;
-    const pts = [...map.querySelectorAll('li')].map((el) => ({
+    const SPAN_Y = 60;
+    const MAP_MIN_WIDTH = 655;
+    const list = map.querySelector('.embed__pts');
+    const pts = [...list.querySelectorAll('li')].map((el) => ({
       el, x: Number(el.dataset.x), y: Number(el.dataset.y), c: el.dataset.c,
     }));
     const names = Object.fromEntries((map.dataset.clusters || '').split(',')
@@ -25,7 +27,18 @@
         .sort((a, b) => a.d - b.d);
     }
 
-    map.classList.add('is-map');
+    // list view: a heading per cluster, members ordered under it (the hub goes first)
+    const order = Object.keys(names);
+    order.forEach((c, i) => {
+      const h = document.createElement('li');
+      h.className = 'embed__group';
+      h.setAttribute('aria-hidden', 'true');
+      h.textContent = names[c];
+      h.style.order = i * 10 + 10;
+      list.append(h);
+    });
+    for (const p of pts) p.el.style.order = order.includes(p.c) ? order.indexOf(p.c) * 10 + 11 : 0;
+
     const svg = document.createElementNS(NS, 'svg');
     svg.setAttribute('class', 'embed__links');
     svg.setAttribute('viewBox', '0 0 100 100');
@@ -42,23 +55,18 @@
     deco.setAttribute('aria-hidden', 'true');
     map.prepend(deco);
 
-    let portrait = false;
     // embedding coords → % of the map box
-    const at = (x, y) => (portrait ? [(y / SPAN_Y) * 100, x] : [x, (y / SPAN_Y) * 100]);
+    const at = (x, y) => [x, (y / SPAN_Y) * 100];
 
-    const line = (g, a, b, cls) => {
+    const line = (g, a, b) => {
       const [x1, y1] = at(a.x, a.y), [x2, y2] = at(b.x, b.y);
       const l = document.createElementNS(NS, 'line');
       l.setAttribute('x1', x1); l.setAttribute('y1', y1);
       l.setAttribute('x2', x2); l.setAttribute('y2', y2);
-      if (cls) l.setAttribute('class', cls);
       g.append(l);
     };
 
     function render() {
-      portrait = map.clientWidth < map.clientHeight;
-      map.classList.toggle('is-portrait', portrait);
-
       const mw = map.clientWidth;
       for (const p of pts) {
         const [left, top] = at(p.x, p.y);
@@ -84,40 +92,37 @@
 
       // a soft glow and a label for each cluster
       deco.replaceChildren();
-      const groups = {};
-      for (const p of pts) (groups[p.c] = groups[p.c] || []).push(p);
-      for (const [c, members] of Object.entries(groups)) {
-        if (!names[c]) continue;
+      for (const c of order) {
+        const members = pts.filter((p) => p.c === c);
+        if (!members.length) continue;
         const cx = members.reduce((s, p) => s + p.x, 0) / members.length;
         const cy = members.reduce((s, p) => s + p.y, 0) / members.length;
         const rx = Math.max(...members.map((p) => Math.abs(p.x - cx))) + 9;
         const ry = Math.max(...members.map((p) => Math.abs(p.y - cy))) + 7;
         const [l, t] = at(cx, cy);
-        const [w, h] = portrait ? [(2 * ry / SPAN_Y) * 100, 2 * rx] : [2 * rx, (2 * ry / SPAN_Y) * 100];
 
         const blob = document.createElement('span');
         blob.className = 'embed__blob';
-        blob.style.cssText = `left:${l}%;top:${t}%;width:${w}%;height:${h}%`;
-        // label sits just above the cluster's top-most member, on screen
-        const spots = members.map((p) => at(p.x, p.y));
-        const ll = spots.reduce((s, [x]) => s + x, 0) / spots.length;
-        const lt = Math.min(...spots.map(([, y]) => y)) - (portrait ? 4.5 : 8);
+        blob.style.cssText = `left:${l}%;top:${t}%;width:${2 * rx}%;height:${(2 * ry / SPAN_Y) * 100}%`;
+        // label sits just above the cluster's top-most member
+        const [lx, ly] = at(cx, Math.min(...members.map((p) => p.y)) - 4.8);
         const label = document.createElement('span');
         label.className = 'embed__cluster';
         label.textContent = names[c];
-        label.style.cssText = `left:${Math.max(9, Math.min(91, ll))}%;top:${Math.max(3, lt)}%`;
+        label.style.cssText = `left:${Math.max(9, Math.min(91, lx))}%;top:${Math.max(3, ly)}%`;
         deco.append(blob, label);
       }
     }
 
     // hover / focus: light up the 4 nearest neighbours with a similarity score
+    let mapMode = false;
     const sims = [];
     function focus(p) {
       hot.replaceChildren();
       sims.splice(0).forEach((s) => s.remove());
-      map.classList.toggle('has-focus', !!p);
+      map.classList.toggle('has-focus', !!p && mapMode);
       pts.forEach((q) => q.el.classList.remove('is-focus', 'is-near'));
-      if (!p) return;
+      if (!p || !mapMode) return;
       p.el.classList.add('is-focus');
       for (const { q, d } of p.nn.slice(0, 4)) {
         q.el.classList.add('is-near');
@@ -141,7 +146,13 @@
     map.addEventListener('pointerleave', () => { if (!map.contains(document.activeElement)) focus(null); });
     map.addEventListener('focusout', (e) => { if (!map.contains(e.relatedTarget)) focus(null); });
 
-    render();
+    function setMode() {
+      focus(null);
+      mapMode = map.clientWidth >= MAP_MIN_WIDTH;
+      map.classList.toggle('is-map', mapMode);
+      if (mapMode) render();
+    }
+    setMode();
 
     // start collapsed near the centre with a little noise, then "train" into place
     if (!reduceMotion && 'IntersectionObserver' in window) {
@@ -167,7 +178,7 @@
     let timer = 0;
     addEventListener('resize', () => {
       clearTimeout(timer);
-      timer = setTimeout(() => { focus(null); render(); }, 150);
+      timer = setTimeout(setMode, 150);
     });
   }
 

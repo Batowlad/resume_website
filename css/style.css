@@ -494,7 +494,7 @@ sub { font-size: .72em; line-height: 0; }
   min-height: 100svh;
   display: flex;
   align-items: center;
-  padding: 88px var(--gutter) 96px;
+  padding: 64px var(--gutter) 88px;
   overflow: hidden;
 }
 
@@ -546,6 +546,7 @@ sub { font-size: .72em; line-height: 0; }
   margin-top: 14px;
   padding-top: 12px;
   border-top: 1px dashed var(--line-strong);
+  max-width: max(var(--field-w, 100%), 560px);
   font-size: 11px;
   line-height: 1.6;
   color: var(--muted);
@@ -569,7 +570,7 @@ sub { font-size: .72em; line-height: 0; }
   grid-template-columns: minmax(0, 1fr) minmax(300px, 370px);
   gap: 40px 64px;
   align-items: end;
-  margin-top: 40px;
+  margin-top: 32px;
 }
 
 .hero__tagline {
@@ -593,7 +594,7 @@ sub { font-size: .72em; line-height: 0; }
   display: flex;
   flex-wrap: wrap;
   gap: 18px 40px;
-  margin: 34px 0 0;
+  margin: 28px 0 0;
 }
 .stat {
   padding: 2px 0 2px 16px;
@@ -619,7 +620,7 @@ sub { font-size: .72em; line-height: 0; }
   flex-wrap: wrap;
   align-items: center;
   gap: 14px 28px;
-  margin-top: 36px;
+  margin-top: 30px;
 }
 
 .probe { margin: 0; }
@@ -800,60 +801,76 @@ html:not(.js) .probe { display: none; }
 }
 .feature h3 { font-size: 42px; }
 
-.loss {
+/* STS AI: one environment step, top to bottom, with a signal running down the rail */
+.pipeline {
   align-self: center;
   margin: 0;
-  padding: 14px 16px 12px;
+  padding: 14px 16px 16px;
   border: 1px solid var(--line);
   border-radius: 3px;
   background: rgb(0 0 0 / .28);
+}
+.pipeline__head {
+  display: flex;
+  justify-content: space-between;
   font-size: 10px;
   letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--muted);
 }
-.loss svg {
-  display: block;
-  width: 100%;
-  height: 120px;
-  margin: 12px 0 10px;
-  overflow: visible;
+.pipeline__steps {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  margin: 16px 0 0;
+  padding: 0 0 0 20px;
+  list-style: none;
 }
-.loss__head, .loss__legend {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+.pipeline__steps::before {
+  content: "";
+  position: absolute;
+  left: 3.5px;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  background: var(--line-strong);
 }
-.loss__head { justify-content: space-between; }
-.loss__grid line { stroke: var(--line); stroke-dasharray: 2 4; vector-effect: non-scaling-stroke; }
-.loss__curve {
-  fill: none;
-  stroke-width: 1.5;
-  stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset 2.4s .3s var(--ease);
+.pipeline__steps::after {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 4px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 10px var(--signal);
+  animation: run-down 3.4s var(--ease) infinite;
 }
-.loss__curve--train { stroke: var(--signal); filter: drop-shadow(0 0 4px rgb(var(--signal-rgb) / .6)); }
-.loss__curve--val { stroke: rgb(var(--amber-rgb) / .75); transition-delay: .5s; }
-.feature.is-visible .loss__curve { stroke-dashoffset: 0; }
-
-.swatch {
-  display: inline-block;
-  width: 12px;
-  height: 2px;
-  margin-right: 8px;
-  vertical-align: middle;
+@keyframes run-down {
+  0% { top: 4px; opacity: 0; }
+  10%, 85% { opacity: 1; }
+  100% { top: calc(100% - 10px); opacity: 0; }
 }
-.swatch--train { background: var(--signal); }
-.swatch--val { background: var(--amber); }
-.loss__final {
-  margin-left: auto;
-  font-size: 12px;
-  letter-spacing: .04em;
-  color: var(--text);
+.pipeline__steps li {
+  position: relative;
+  display: grid;
+  gap: 1px;
+  line-height: 1.35;
 }
+.pipeline__steps li::before {
+  content: "";
+  position: absolute;
+  left: -20px;
+  top: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgb(var(--signal-rgb) / .7);
+  background: var(--bg);
+}
+.pipeline__steps b { font-size: 12px; font-weight: 500; color: var(--text); }
+.pipeline__steps span { font-size: 10.5px; color: var(--muted); }
 
 .cards {
   display: grid;
@@ -873,6 +890,7 @@ html:not(.js) .probe { display: none; }
   transition: border-color .3s, background .3s;
 }
 .card .tags { margin-top: auto; padding-top: 22px; }
+.cards .card:last-child:nth-child(odd) { grid-column: 1 / -1; }   /* an odd last card spans the row */
 .card::after {
   content: "";
   position: absolute;
@@ -1020,6 +1038,24 @@ html:not(.js) .emb { display: none; }
           mask: var(--icon) center / contain no-repeat;
   transition: background .25s;
 }
+
+/* narrow screens: chips grouped under their cluster names (headings added by JS) */
+.embed__pts .embed__group {
+  flex-basis: 100%;
+  margin: 14px 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.embed__map:not(.is-map) .embed__pts li.is-hub { border-color: rgb(var(--signal-rgb) / .5); color: var(--text); }
+.embed__map:not(.is-map) .embed__pts li.is-hub i { background: var(--signal); }
+.embed__map:not(.is-map) :is(.embed__links, .embed__deco, .embed__sim) { display: none; }
+.is-map .embed__pts .embed__group { display: none; }
+.embed__map:not(.is-map) + .figcap .only-map { display: none; }
 
 .embed__map.is-map {
   position: relative;
@@ -1270,7 +1306,7 @@ html:not(.js) .emb { display: none; }
     -webkit-backdrop-filter: blur(14px);
             backdrop-filter: blur(14px);
   }
-  .brand { display: flex; align-items: baseline; gap: 14px; }
+  .brand { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; }
   .brand__name { font-size: 27px; }
 
   .layers { margin: 0 -20px; }
@@ -1332,9 +1368,6 @@ html:not(.js) .emb { display: none; }
   .awards td:last-child { width: auto; }
   .awards td:nth-child(2) { grid-column: 1 / -1; grid-row: 2; font-size: 12.5px; color: var(--muted); }
 
-  .embed__map.is-map { aspect-ratio: 60 / 100; background-size: 16.667% 10%; }
-  .is-map .embed__pts li { font-size: 10.5px; gap: 6px; }
-  .is-map .embed__pts li.is-hub { font-size: 12px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

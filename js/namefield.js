@@ -304,7 +304,9 @@
   }
 
   function layout() {
-    const width = fig.clientWidth;
+    // two-line names are tall: cap the height so the rest of the hero stays above the fold
+    const maxHeight = Math.max(160, Math.min(320, window.innerHeight * 0.3));
+    const width = Math.min(fig.clientWidth, maxHeight / aspect);
     const oc = cols, or = rows;
     cell = width < 520 ? 4 : width < 820 ? 5 : 6;
     cols = Math.max(20, Math.floor(width / cell));
@@ -318,6 +320,7 @@
     canvas.height = Math.round(Hpx * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     stage.style.width = `${W}px`;
+    fig.style.setProperty('--field-w', `${W}px`);
     title.style.fontSize = `${(data.px * W) / data.TW}px`;   // the text overlay matches the raster
     cur = resample(cur, oc, or);
     next = resample(next, oc, or);

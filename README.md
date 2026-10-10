@@ -29,7 +29,7 @@ network learns.
 No build step and no dependencies.
 
 ```
-index.html         all content, marked with EDIT comments
+index.html         all content
 css/style.css      tokens at the top (colours, fonts, widths)
 js/namefield.js    Fig. 1 + 1b: the worker, trainer, dot matrix, probe, telemetry
 js/embedding.js    Fig. 2 map + project embedding barcodes
@@ -38,9 +38,9 @@ js/typewriter.js   terminal typing for headings and large text
 js/main.js         scroll reveal, nav scroll spy, count-up, copy email
 ```
 
-## Filling in the placeholders
+## Editing content
 
-Everything is in `index.html`. Search for `EDIT`.
+Everything is in `index.html`.
 
 - **Your name.** Change the `<h1>`: that text *is* the training data, and the network
   learns whatever you put there. Names longer than about 15 characters wrap onto two lines.
@@ -85,7 +85,7 @@ You can deploy it to any static host, such as GitHub Pages, Netlify or Vercel.
 ## Behaviour
 
 - Training **pauses in background tabs**, so the name emerges when someone is looking.
-- **Under 960px** the sidebar becomes a sticky top bar. On phones the embedding map turns portrait.
+- **Under 960px** the sidebar becomes a sticky top bar. Below about 760px wide, the stack map becomes chips grouped by cluster.
 - With **`prefers-reduced-motion`** the network trains without the animation and the
   finished result appears once. Text appears without typing, and the reveals and
   transitions are off too.

@@ -67,7 +67,7 @@
     el.textContent = '0';
     const tick = (now) => {
       const k = Math.min(1, Math.max(0, (now - start) / dur));
-      el.textContent = String(Math.round(end * (1 - Math.pow(1 - k, 3))));
+      el.textContent = Math.round(end * (1 - Math.pow(1 - k, 3))) + (el.dataset.suffix || '');
       if (k < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
