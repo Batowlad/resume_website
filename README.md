@@ -19,6 +19,13 @@ static, to blurry blobs, to sharp letters in about 15 seconds.
 - **Tech stack (Fig. 2)** is a 2-D embedding map. Points start collapsed and settle into
   place. Hover or tap one to see its nearest neighbours.
 
+Headings and large text are set in **VT323**, a CRT-terminal font with a phosphor glow.
+Each one types itself out the first time it scrolls into view. A block cursor leads, and
+the last few characters flicker through random glyphs before they settle. Lines in view
+type one after another, like a terminal. Any line you scroll past before its turn is filled
+in instantly. The name in Fig. 1 stays in Instrument Serif, because that's what the
+network learns.
+
 No build step and no dependencies.
 
 ```
@@ -27,6 +34,7 @@ css/style.css      tokens at the top (colours, fonts, widths)
 js/namefield.js    Fig. 1 + 1b: the worker, trainer, dot matrix, probe, telemetry
 js/embedding.js    Fig. 2 map + project embedding barcodes
 js/backdrop.js     the drifting node field behind the page
+js/typewriter.js   terminal typing for headings and large text
 js/main.js         scroll reveal, nav scroll spy, count-up, copy email
 ```
 
@@ -48,6 +56,9 @@ Everything is in `index.html`. Search for `EDIT`.
   cluster). Cluster names are in `data-clusters` on `.embed__map`. Icons are
   [Simple Icons](https://simpleicons.org) slugs in the `--icon` URL.
 - **Contact.** The email appears twice: in the `mailto:` link and in `data-copy`.
+- **Typing.** Add `data-type="40"` to any element to make it type itself out. The number is
+  the average ms per character. Add `data-type-delay="300"` to pause before it starts.
+  Remove the attribute and the text just appears.
 
 ## Tuning the network
 
@@ -76,6 +87,7 @@ You can deploy it to any static host, such as GitHub Pages, Netlify or Vercel.
 - Training **pauses in background tabs**, so the name emerges when someone is looking.
 - **Under 960px** the sidebar becomes a sticky top bar. On phones the embedding map turns portrait.
 - With **`prefers-reduced-motion`** the network trains without the animation and the
-  finished result appears once. The reveals and transitions are off too.
+  finished result appears once. Text appears without typing, and the reveals and
+  transitions are off too.
 - **Without JS** (or without Web Workers) the `<h1>` shows as normal text and the stack is
   a plain list.

@@ -10,7 +10,7 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2306080c'/%3E%3Cpath d='M8 9 16 16 24 10M8 23 16 16 24 22M8 9 24 22M8 23 24 10' stroke='%236ee7d3' stroke-opacity='.45' fill='none'/%3E%3Cg fill='%236ee7d3'%3E%3Ccircle cx='8' cy='9' r='2.4'/%3E%3Ccircle cx='8' cy='23' r='2.4'/%3E%3Ccircle cx='24' cy='10' r='2.4'/%3E%3Ccircle cx='24' cy='22' r='2.4'/%3E%3Ccircle cx='16' cy='16' r='3'/%3E%3C/g%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=VT323&display=swap">
   <link rel="stylesheet" href="css/style.css">
   <script>document.documentElement.classList.add('js')</script>
 </head>
@@ -24,7 +24,7 @@
   <!-- ============ SIDEBAR / NAV ============ -->
   <aside class="sidebar">
     <a class="brand" href="#about">
-      <span class="brand__name">Your Name</span>          <!-- EDIT -->
+      <span class="brand__name" data-type="55" data-type-delay="300">Your Name</span>          <!-- EDIT -->
       <span class="brand__role">ML Engineer</span>        <!-- EDIT -->
     </a>
 
@@ -77,7 +77,7 @@
 
         <div class="hero__body">
           <div class="hero__copy">
-            <p class="hero__tagline reveal" style="--d:160ms">Teaching machines to <em>see</em>, <em>read</em>, and <em>reason</em>.</p>
+            <p class="hero__tagline reveal" style="--d:160ms" data-type="38" data-type-delay="250">Teaching machines to <em>see</em>, <em>read</em>, and <em>reason</em>.</p>
             <p class="hero__lede reveal" style="--d:220ms">
               <span class="prompt" aria-hidden="true">&gt;</span>Currently building <strong>Project Name</strong>, a one-line
               description of what it does and the stack behind it. For example, a retrieval-augmented agent built
@@ -85,7 +85,7 @@
             </p>
 
             <dl class="stats reveal" style="--d:280ms">
-              <div class="stat"><dt>Currently at</dt><dd>Company Name</dd></div>
+              <div class="stat"><dt>Currently at</dt><dd data-type="50" data-type-delay="300">Company Name</dd></div>
               <div class="stat"><dt>Models shipped</dt><dd data-count="12">12</dd></div>
               <div class="stat"><dt>Hackathon wins</dt><dd data-count="3">3</dd></div>
             </dl>
@@ -112,7 +112,7 @@
       <div class="section__inner">
         <header class="section__head reveal">
           <p class="eyebrow eyebrow--node">Layer 01 · Recurrent</p>
-          <h2>Experience</h2>
+          <h2 data-type="75">Experience</h2>
           <p class="section__lede">
             Where I've worked, researched, and led. Read it as a recurrent net unrolled through time:
             each role updates the hidden state. <code class="formula">h<sub>t</sub> = f(h<sub>t−1</sub>, x<sub>t</sub>)</code>
@@ -124,7 +124,7 @@
           <li class="job reveal">
             <p class="job__when">Sep 2026 – Present<span class="job__h">h<sub>4</sub></span></p>
             <div class="job__body">
-              <h3>Company Name</h3>
+              <h3 data-type="32">Company Name</h3>
               <p class="job__role">Machine Learning Engineer Intern</p>
               <p class="job__about">One sentence on what the company does and who it serves.</p>
               <ul class="job__points">
@@ -138,7 +138,7 @@
           <li class="job reveal">
             <p class="job__when">May 2026 – Aug 2026<span class="job__h">h<sub>3</sub></span></p>
             <div class="job__body">
-              <h3>Research Lab Name</h3>
+              <h3 data-type="32">Research Lab Name</h3>
               <p class="job__role">Undergraduate Researcher</p>
               <p class="job__about">The lab or group: the professor, the area, and the question it's chasing.</p>
               <ul class="job__points">
@@ -152,7 +152,7 @@
           <li class="job reveal">
             <p class="job__when">Jan 2025 – Apr 2025<span class="job__h">h<sub>2</sub></span></p>
             <div class="job__body">
-              <h3>Startup Name</h3>
+              <h3 data-type="32">Startup Name</h3>
               <p class="job__role">Software Engineer Intern</p>
               <p class="job__about">One sentence on the product and the stage the company was at.</p>
               <ul class="job__points">
@@ -166,7 +166,7 @@
           <li class="job reveal">
             <p class="job__when">Sep 2023 – Jun 2025<span class="job__h">h<sub>1</sub></span></p>
             <div class="job__body">
-              <h3>Club or Team Name</h3>
+              <h3 data-type="32">Club or Team Name</h3>
               <p class="job__role">Founder &amp; Lead</p>
               <p class="job__about">A student team, club, or volunteer role. Leadership counts.</p>
               <ul class="job__points">
@@ -184,7 +184,7 @@
       <div class="section__inner">
         <header class="section__head reveal">
           <p class="eyebrow eyebrow--node">Layer 02 · Attention</p>
-          <h2>Projects</h2>
+          <h2 data-type="75">Projects</h2>
           <p class="section__lede">
             Models and tools I've built, from research experiments to things people actually use. Each one carries
             its embedding: a 24-d feature-hashed vector of its name and stack.
@@ -194,7 +194,7 @@
         <!-- EDIT: your flagship project -->
         <article class="feature reveal">
           <div class="feature__text">
-            <h3>Project Alpha</h3>
+            <h3 data-type="32">Project Alpha</h3>
             <p class="project__meta">Live at project-alpha.dev</p>
             <p class="project__desc">
               Your flagship project in two to four sentences: the problem and who had it, what you built, the
@@ -231,7 +231,7 @@
         <!-- EDIT: smaller projects, any even number looks best -->
         <div class="cards">
           <article class="card reveal">
-            <h3>Project Beta</h3>
+            <h3 data-type="32">Project Beta</h3>
             <p class="project__meta">Hackathon Name 2026 · Best Use of AI</p>
             <p class="project__desc">Built in a weekend. What it does in one or two sentences, and the model or API that powers it.</p>
             <ul class="tags"><li>Next.js</li><li>OpenCV</li><li>Gemini API</li></ul>
@@ -239,7 +239,7 @@
           </article>
 
           <article class="card reveal" style="--d:80ms">
-            <h3>Project Gamma</h3>
+            <h3 data-type="32">Project Gamma</h3>
             <p class="project__meta">Research · Paper Reproduction</p>
             <p class="project__desc">Which result you reproduced, what you changed, and what you found that the paper didn't say.</p>
             <ul class="tags"><li>JAX</li><li>Flax</li><li>W&amp;B</li></ul>
@@ -247,7 +247,7 @@
           </article>
 
           <article class="card reveal">
-            <h3>Project Delta</h3>
+            <h3 data-type="32">Project Delta</h3>
             <p class="project__meta">Open Source · 1.2k stars</p>
             <p class="project__desc">A library, tool, or contribution other people use. Say who uses it and how many.</p>
             <ul class="tags"><li>Python</li><li>CUDA</li><li>C++</li></ul>
@@ -255,7 +255,7 @@
           </article>
 
           <article class="card reveal" style="--d:80ms">
-            <h3>Project Epsilon</h3>
+            <h3 data-type="32">Project Epsilon</h3>
             <p class="project__meta">Kaggle · Top 3%</p>
             <p class="project__desc">A competition entry: the approach, the leaderboard finish, and the trick that moved the needle.</p>
             <ul class="tags"><li>scikit-learn</li><li>XGBoost</li><li>pandas</li></ul>
@@ -272,7 +272,7 @@
       <div class="section__inner">
         <header class="section__head reveal">
           <p class="eyebrow eyebrow--node">Layer 03 · Residual</p>
-          <h2>Awards</h2>
+          <h2 data-type="75">Awards</h2>
           <p class="section__lede">Hackathons, competitions, and research recognition.</p>
         </header>
 
@@ -301,7 +301,7 @@
       <div class="section__inner">
         <header class="section__head reveal">
           <p class="eyebrow eyebrow--node">Layer 04 · Embedding</p>
-          <h2>Tech Stack</h2>
+          <h2 data-type="75">Tech Stack</h2>
           <p class="section__lede">Languages, frameworks, and infrastructure I train and ship with.</p>
         </header>
 
@@ -342,10 +342,10 @@
       <div class="section__inner">
         <header class="section__head reveal">
           <p class="eyebrow eyebrow--node">Layer 05 · Softmax</p>
-          <h2>Contact</h2>
+          <h2 data-type="75">Contact</h2>
         </header>
 
-        <p class="contact__pitch reveal">
+        <p class="contact__pitch reveal" data-type="24">
           Looking for <em>Summer 2027</em> ML and research internships. If you're training something
           interesting, I'd love to hear from you.
         </p>
@@ -375,6 +375,7 @@
   <script src="js/backdrop.js" defer></script>
   <script src="js/namefield.js" defer></script>
   <script src="js/embedding.js" defer></script>
+  <script src="js/typewriter.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>

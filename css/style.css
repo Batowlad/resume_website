@@ -17,8 +17,11 @@
   --amber-rgb: 231 184 119;           /* labels, metadata */
   --amber: rgb(var(--amber-rgb));
 
-  --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;   /* only the name the network learns */
   --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --term: "VT323", "JetBrains Mono", ui-monospace, monospace;      /* CRT terminal: headings + large text */
+  --phosphor: #dcfff6;
+  --glow: 0 0 2px rgb(var(--signal-rgb) / .45), 0 0 14px rgb(var(--signal-rgb) / .3);
 
   --sidebar: 248px;
   --gutter: clamp(20px, 7vw, 112px);
@@ -50,15 +53,32 @@ body {
 
 h1, h2, h3 {
   margin: 0;
-  font-family: var(--serif);
   font-weight: 400;
   color: var(--text);
-  letter-spacing: -0.01em;
 }
 
-h1 { font-size: clamp(60px, 8.4vw, 112px); line-height: .92; letter-spacing: -0.025em; }
-h2 { font-size: clamp(38px, 4.4vw, 54px); line-height: 1.02; }
-h3 { font-size: 27px; line-height: 1.15; }
+h1 { font-family: var(--serif); font-size: clamp(60px, 8.4vw, 112px); line-height: .92; letter-spacing: -0.025em; }
+
+h2, h3 { font-family: var(--term); letter-spacing: .01em; }
+h2 {
+  font-size: clamp(48px, 5.6vw, 70px);
+  line-height: 1;
+  color: var(--phosphor);
+  text-shadow: var(--glow);
+}
+h3 {
+  font-size: 32px;
+  line-height: 1.05;
+  text-shadow: 0 0 12px rgb(var(--signal-rgb) / .2);
+}
+
+/* a shell prompt in front of each section title */
+.section__head h2::before {
+  content: ">";
+  margin-right: .4em;
+  color: var(--signal);
+  opacity: .75;
+}
 
 p { margin: 0; }
 a { color: inherit; text-decoration: none; }
@@ -142,10 +162,11 @@ a { color: inherit; text-decoration: none; }
 
 .brand { display: grid; gap: 6px; }
 .brand__name {
-  font-family: var(--serif);
-  font-size: 27px;
+  font-family: var(--term);
+  font-size: 31px;
   line-height: 1;
-  color: var(--text);
+  color: var(--phosphor);
+  text-shadow: var(--glow);
 }
 .brand__role {
   font-size: 10px;
@@ -394,6 +415,34 @@ main {
 sub { font-size: .72em; line-height: 0; }
 
 /* ==========================================================================
+   Terminal typing (js/typewriter.js)
+   ========================================================================== */
+
+/* the not-yet-typed remainder holds its place but can't be seen (or glow) */
+.tw-rest { color: transparent; text-shadow: none; }
+
+/* zero-width so it never pushes the line; the block is drawn by ::after */
+.tw-cursor {
+  position: relative;
+  display: inline-block;
+  width: 0;
+  height: .8em;
+}
+.tw-cursor::after {
+  content: "";
+  position: absolute;
+  left: .06em;
+  bottom: -.06em;
+  width: .48em;
+  height: .86em;
+  background: var(--signal);
+  box-shadow: 0 0 10px rgb(var(--signal-rgb) / .75);
+}
+.tw.is-typed .tw-cursor::after { animation: cursor-blink 1.06s steps(2, jump-none) infinite; }
+
+@keyframes cursor-blink { 50% { opacity: 0; } }
+
+/* ==========================================================================
    Sidebar telemetry: live readout of the network training in the hero
    ========================================================================== */
 
@@ -524,10 +573,11 @@ sub { font-size: .72em; line-height: 0; }
 }
 
 .hero__tagline {
-  font-family: var(--serif);
-  font-size: clamp(23px, 2.4vw, 29px);
-  line-height: 1.3;
-  color: var(--text);
+  font-family: var(--term);
+  font-size: clamp(28px, 2.9vw, 36px);
+  line-height: 1.15;
+  color: var(--phosphor);
+  text-shadow: var(--glow);
 }
 .hero__tagline em { color: var(--signal); }
 
@@ -557,9 +607,9 @@ sub { font-size: .72em; line-height: 0; }
 }
 .stat dd {
   margin: 6px 0 0;
-  font-family: var(--serif);
-  font-size: 28px;
-  line-height: 1.1;
+  font-family: var(--term);
+  font-size: 33px;
+  line-height: 1;
   color: var(--text);
   font-variant-numeric: tabular-nums;
 }
@@ -665,7 +715,7 @@ html:not(.js) .probe { display: none; }
 }
 .job.is-visible .job__body::after { transform: scaleY(1); }
 
-.job h3 { font-size: 29px; }
+.job h3 { font-size: 35px; }
 
 .job__role {
   margin-top: 6px;
@@ -748,7 +798,7 @@ html:not(.js) .probe { display: none; }
   background: linear-gradient(90deg, transparent, var(--signal) 50%, transparent);
   opacity: .7;
 }
-.feature h3 { font-size: 34px; }
+.feature h3 { font-size: 42px; }
 
 .loss {
   align-self: center;
@@ -1113,11 +1163,12 @@ html:not(.js) .emb { display: none; }
    ========================================================================== */
 
 .contact__pitch {
-  max-width: 700px;
-  font-family: var(--serif);
-  font-size: clamp(28px, 3.4vw, 42px);
-  line-height: 1.18;
-  color: var(--text);
+  max-width: 760px;
+  font-family: var(--term);
+  font-size: clamp(32px, 4vw, 50px);
+  line-height: 1.1;
+  color: var(--phosphor);
+  text-shadow: var(--glow);
 }
 .contact__pitch em { color: var(--signal); }
 
@@ -1220,7 +1271,7 @@ html:not(.js) .emb { display: none; }
             backdrop-filter: blur(14px);
   }
   .brand { display: flex; align-items: baseline; gap: 14px; }
-  .brand__name { font-size: 23px; }
+  .brand__name { font-size: 27px; }
 
   .layers { margin: 0 -20px; }
   .layers::before, .layers__signal, .layers__idx, .sidebar__foot { display: none; }
@@ -1251,7 +1302,7 @@ html:not(.js) .emb { display: none; }
   body { font-size: 14px; }
 
   .hud__stats { gap: 14px; }
-  .stat dd { font-size: 24px; }
+  .stat dd { font-size: 29px; }
 
   .job { grid-template-columns: minmax(0, 1fr); }
   .job__when {
@@ -1260,10 +1311,10 @@ html:not(.js) .emb { display: none; }
     text-align: left;
   }
   .job__h { display: inline; margin: 0 0 0 10px; }
-  .job h3 { font-size: 26px; }
+  .job h3 { font-size: 31px; }
 
   .feature { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 26px 22px; }
-  .feature h3 { font-size: 30px; }
+  .feature h3 { font-size: 36px; }
   .cards { grid-template-columns: minmax(0, 1fr); }
   .card { padding: 26px 22px; }
 
